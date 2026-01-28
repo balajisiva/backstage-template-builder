@@ -1,10 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Backstage Template Builder
 
-## Getting Started
+Visual authoring for Backstage scaffolder templates
 
-First, run the development server:
+## What this is
+
+Backstage scaffolder templates are powerful, but difficult to author, review, and evolve over time.
+
+Backstage Template Builder is a Backstage frontend plugin that provides a visual editor, execution flow view, and live YAML output for creating and maintaining scaffolder templates — without hiding the underlying configuration.
+
+This plugin is designed for platform teams who want faster, safer iteration on templates while staying fully compatible with Backstage's native scaffolder.
+
+## Key features
+
+- **Visual template editor** — Create and edit scaffolder templates using structured forms instead of hand-editing YAML.
+- **Live YAML view** — Always see the generated YAML side-by-side to retain transparency and control.
+- **Execution flow visualization** — Understand how scaffolder steps execute through a clear, step-by-step flow view.
+- **Action discovery** — Browse and add common scaffolder actions (fetch, publish, catalog, custom actions).
+- **Preview experience** — See what the end-user form will look like before publishing the template.
+
+## Why this exists
+
+Most Backstage adoption challenges don't come from running templates — they come from authoring and maintaining them.
+
+This plugin focuses on:
+- Reducing YAML friction
+- Making template behavior understandable
+- Helping teams treat templates as long-lived products, not one-off files
+
+## Who it's for
+
+- Platform engineering teams
+- Backstage administrators
+- Architects and PMs defining golden paths
+- Anyone responsible for maintaining scaffolder templates at scale
+
+## Installation
+
+This project is currently implemented as a standalone Next.js application.
+
+**Prerequisites:**
+- Node.js 18+
+- npm, yarn, pnpm, or bun
+
+**Run the development server:**
 
 ```bash
+npm install
 npm run dev
 # or
 yarn dev
@@ -14,23 +55,26 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Open the application in your browser:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Status
 
-## Learn More
+Early / experimental
 
-To learn more about Next.js, take a look at the following resources:
+The plugin is actively evolving. APIs, UI, and behavior may change.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Feedback and contributions are welcome.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Screenshots
 
-## Deploy on Vercel
+(Add your existing screenshots here — they're a strength.)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions, ideas, and feedback are welcome.
+
+Please open an issue to discuss larger changes before submitting a PR.
