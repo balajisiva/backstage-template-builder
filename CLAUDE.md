@@ -1,7 +1,10 @@
 # Backstage Template Builder - Claude Code Context
 
 ## Project Overview
-A **visual builder for Backstage.io software templates** built with Next.js 16 (App Router), TypeScript, and Tailwind CSS. Users can visually create, edit, and manage Backstage scaffolder templates (`scaffolder.backstage.io/v1beta3`) with drag-and-drop, live YAML preview, GitHub sync, and end-user preview.
+A **Backstage frontend plugin for visual template authoring** that helps platform teams create, edit, and manage Backstage scaffolder templates (`scaffolder.backstage.io/v1beta3`) with drag-and-drop, live YAML preview, GitHub sync, and end-user preview.
+
+**Primary deployment:** Backstage plugin at `plugins/backstage-template-builder/`
+**Legacy development app:** Standalone Next.js app (for prototyping only)
 
 ## Tech Stack
 - **Next.js 16** (App Router, Turbopack)
@@ -13,16 +16,32 @@ A **visual builder for Backstage.io software templates** built with Next.js 16 (
 - **lucide-react** for icons
 
 ## Dev Server
+
+**Plugin (recommended):**
+```bash
+cd plugins/backstage-template-builder
+yarn start
+```
+
+**Standalone Next.js app (legacy):**
 ```bash
 npx next dev --port 3000
 ```
+
+## Repository Structure
+
+This repository contains:
+1. **`plugins/backstage-template-builder/`** - The Backstage plugin (recommended for production)
+2. **`src/`** - Original Next.js app (for development/prototyping only)
+
+Both share the same core logic but have different entry points and build configurations.
 
 ## Architecture
 
 ### Core Data Flow
 `TemplateProvider` (React Context) → `useReducer` state → components dispatch actions → YAML auto-generated on state change
 
-### Key Files
+### Key Files (Plugin)
 
 **Types & Models:**
 - `src/types/template.ts` — Core TypeScript types: `BackstageTemplate`, `ParameterStep`, `ParameterProperty`, `TemplateStep`, `TemplateOutput`, `ActionDefinition`, etc. Metadata supports `annotations?: Record<string, string>` for template versioning.
@@ -80,3 +99,23 @@ npx next dev --port 3000
 - **Empty push modal**: Fixed by showing connect form whenever `!user && !loading`
 - **Token persistence**: Changed from `sessionStorage` to `localStorage`
 - **Spinning connect button**: Added 10s timeout to `validateToken`, error message on stale token
+
+## Plugin Migration Notes (Jan 2026)
+
+The project was converted from a standalone Next.js app to a Backstage plugin:
+
+**What changed:**
+- Removed `'use client'` directives
+- Changed imports from `@/` aliases to relative paths (`../../`)
+- Updated GitHub client to call API directly (no Next.js API route proxy)
+- Added Backstage plugin structure (`plugin.ts`, `routes.ts`, `index.ts`)
+- Compiled Tailwind CSS bundled with plugin
+
+**What stayed the same:**
+- All UI components (95% of code unchanged)
+- State management (`template-store.ts`)
+- YAML utilities (`yaml-utils.ts`)
+- Actions catalog (`actions-catalog.ts`)
+- TypeScript types (`template.ts`)
+
+**Integration steps:** See `plugins/backstage-template-builder/INTEGRATION.md`

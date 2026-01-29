@@ -1,6 +1,7 @@
 {
-  "name": "backstage-builder",
+  "name": "backstage-template-builder",
   "version": "0.1.0",
+  "description": "Backstage plugin for visual template authoring and management",
   "private": true,
   "scripts": {
     "dev": "next dev",
