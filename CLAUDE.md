@@ -1,7 +1,7 @@
 # Backstage Template Builder - Claude Code Context
 
 ## Project Overview
-A **nocode visual builder for Backstage.io software templates** built with Next.js 16 (App Router), TypeScript, and Tailwind CSS. Users can visually create, edit, and manage Backstage scaffolder templates (`scaffolder.backstage.io/v1beta3`) with drag-and-drop, live YAML preview, GitHub sync, and end-user preview.
+A **visual builder for Backstage.io software templates** built with Next.js 16 (App Router), TypeScript, and Tailwind CSS. Users can visually create, edit, and manage Backstage scaffolder templates (`scaffolder.backstage.io/v1beta3`) with drag-and-drop, live YAML preview, GitHub sync, and end-user preview.
 
 ## Tech Stack
 - **Next.js 16** (App Router, Turbopack)
