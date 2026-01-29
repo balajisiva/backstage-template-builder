@@ -355,10 +355,6 @@ export default function BuilderLayout() {
       {showSettings && (
         <SettingsModal
           onClose={() => setShowSettings(false)}
-          onOpenGitHubSync={(mode) => {
-            setShowSettings(false);
-            setSyncMode(mode);
-          }}
         />
       )}
     </div>

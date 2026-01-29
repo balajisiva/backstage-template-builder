@@ -11,12 +11,11 @@ import {
 
 interface SettingsModalProps {
   onClose: () => void;
-  onOpenGitHubSync: (mode: 'connect' | 'pull' | 'push') => void;
 }
 
 type SettingsTab = 'github' | 'actions' | 'general';
 
-export default function SettingsModal({ onClose, onOpenGitHubSync }: SettingsModalProps) {
+export default function SettingsModal({ onClose }: SettingsModalProps) {
   const [activeTab, setActiveTab] = useState<SettingsTab>('github');
   const [ghConnected, setGhConnected] = useState(isConnected());
   const [ghToken, setGhToken] = useState('');
@@ -197,7 +196,7 @@ export default function SettingsModal({ onClose, onOpenGitHubSync }: SettingsMod
               <div>
                 <h3 className="text-base font-semibold text-zinc-100 mb-2">GitHub Integration</h3>
                 <p className="text-sm text-zinc-400">
-                  Connect to GitHub to load and push templates to your repositories.
+                  Connect to GitHub to enable template synchronization with your repositories.
                 </p>
               </div>
 
@@ -249,12 +248,12 @@ export default function SettingsModal({ onClose, onOpenGitHubSync }: SettingsMod
                   </button>
                 </div>
               ) : (
-                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 space-y-4">
+                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-emerald-400">Connected to GitHub</p>
                       <p className="text-xs text-zinc-400 mt-1">
-                        You can now load and push templates to your repositories.
+                        GitHub integration is active. Use the Load Template and Push buttons in the toolbar.
                       </p>
                     </div>
                     <button
@@ -262,26 +261,6 @@ export default function SettingsModal({ onClose, onOpenGitHubSync }: SettingsMod
                       className="px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-zinc-700 rounded-lg transition-colors"
                     >
                       Disconnect
-                    </button>
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        onClose();
-                        onOpenGitHubSync('pull');
-                      }}
-                      className="flex-1 px-4 py-2 text-sm bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg transition-colors"
-                    >
-                      Load Template
-                    </button>
-                    <button
-                      onClick={() => {
-                        onClose();
-                        onOpenGitHubSync('push');
-                      }}
-                      className="flex-1 px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors"
-                    >
-                      Push Template
                     </button>
                   </div>
                 </div>
