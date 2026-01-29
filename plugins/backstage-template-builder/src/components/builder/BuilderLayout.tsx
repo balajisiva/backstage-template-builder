@@ -33,6 +33,7 @@ import {
   HelpCircle,
   BookOpen,
   Settings2,
+  ArrowLeft,
 } from 'lucide-react';
 
 type ViewMode = 'editor' | 'flow' | 'preview';
@@ -329,16 +330,122 @@ export default function BuilderLayout() {
 
         {/* Flow mode */}
         {viewMode === 'flow' && (
-          <main className="flex-1 overflow-hidden bg-zinc-950 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.03)_1px,transparent_0)] bg-[length:24px_24px]">
-            <FlowView onSwitchToTab={handleSwitchToTab} />
-          </main>
+          <>
+            {/* Flow sidebar */}
+            <nav className="w-48 shrink-0 border-r border-zinc-800 bg-zinc-900/30 flex flex-col">
+              <div className="p-2 space-y-0.5 flex-1">
+                <button
+                  onClick={() => setViewMode('editor')}
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Editor
+                </button>
+                <button
+                  onClick={() => setViewMode('preview')}
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent transition-all"
+                >
+                  <Eye className="w-4 h-4" />
+                  Preview
+                </button>
+              </div>
+
+              {/* Bottom menu */}
+              <div className="p-3 border-t border-zinc-800 space-y-1">
+                <button
+                  onClick={() => setShowSettings(true)}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                >
+                  <Settings2 className="w-3.5 h-3.5" />
+                  <span>Settings</span>
+                </button>
+                <a
+                  href="https://github.com/balajisiva/backstage-template-builder#readme"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                >
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Help</span>
+                  <ExternalLink className="w-3 h-3 ml-auto" />
+                </a>
+                <a
+                  href="https://github.com/balajisiva/backstage-template-builder/issues"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Feedback or Bug Report</span>
+                  <ExternalLink className="w-3 h-3 ml-auto" />
+                </a>
+              </div>
+            </nav>
+
+            <main className="flex-1 overflow-hidden bg-zinc-950 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.03)_1px,transparent_0)] bg-[length:24px_24px]">
+              <FlowView onSwitchToTab={handleSwitchToTab} />
+            </main>
+          </>
         )}
 
         {/* Preview mode */}
         {viewMode === 'preview' && (
-          <main className="flex-1 overflow-hidden">
-            <EndUserPreview />
-          </main>
+          <>
+            {/* Preview sidebar */}
+            <nav className="w-48 shrink-0 border-r border-zinc-800 bg-zinc-900/30 flex flex-col">
+              <div className="p-2 space-y-0.5 flex-1">
+                <button
+                  onClick={() => setViewMode('editor')}
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Editor
+                </button>
+                <button
+                  onClick={() => setViewMode('flow')}
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent transition-all"
+                >
+                  <GitFork className="w-4 h-4" />
+                  Flow View
+                </button>
+              </div>
+
+              {/* Bottom menu */}
+              <div className="p-3 border-t border-zinc-800 space-y-1">
+                <button
+                  onClick={() => setShowSettings(true)}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                >
+                  <Settings2 className="w-3.5 h-3.5" />
+                  <span>Settings</span>
+                </button>
+                <a
+                  href="https://github.com/balajisiva/backstage-template-builder#readme"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                >
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Help</span>
+                  <ExternalLink className="w-3 h-3 ml-auto" />
+                </a>
+                <a
+                  href="https://github.com/balajisiva/backstage-template-builder/issues"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Feedback or Bug Report</span>
+                  <ExternalLink className="w-3 h-3 ml-auto" />
+                </a>
+              </div>
+            </nav>
+
+            <main className="flex-1 overflow-hidden">
+              <EndUserPreview />
+            </main>
+          </>
         )}
 
         {/* YAML preview */}
