@@ -40,6 +40,14 @@ This plugin focuses on:
 - Architects and PMs defining golden paths
 - Anyone responsible for maintaining scaffolder templates at scale
 
+## Quick Look
+
+**Create a new template**
+![New Template](.github/assets/New_Template_Creation.png)
+
+**Load existing templates from GitHub**
+![Load Template](.github/assets/Load_Existing_Template.png)
+
 ## Installation
 
 ### Prerequisites
