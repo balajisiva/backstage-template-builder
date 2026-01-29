@@ -11,7 +11,6 @@ import FlowView from '@/components/panels/FlowView';
 import EndUserPreview from '@/components/panels/EndUserPreview';
 import GitHubLoader from '@/components/builder/GitHubLoader';
 import GitHubSync from '@/components/builder/GitHubSync';
-import CustomActionsManager from '@/components/builder/CustomActionsManager';
 import { createBlankTemplate } from '@/lib/yaml-utils';
 import { isConnected } from '@/lib/github-client';
 import {
@@ -29,7 +28,6 @@ import {
   ArrowDownToLine,
   ArrowUpFromLine,
   GitBranch,
-  Zap,
 } from 'lucide-react';
 
 type ViewMode = 'editor' | 'flow' | 'preview';
@@ -48,7 +46,6 @@ export default function BuilderLayout() {
   const [viewMode, setViewMode] = useState<ViewMode>('editor');
   const [syncMode, setSyncMode] = useState<'connect' | 'pull' | 'push' | null>(null);
   const [ghConnected, setGhConnected] = useState(false);
-  const [showActionsManager, setShowActionsManager] = useState(false);
 
   // Check GitHub connection on mount
   React.useEffect(() => {
@@ -134,14 +131,6 @@ export default function BuilderLayout() {
           >
             <FolderGit2 className="w-3.5 h-3.5" />
             Load Template
-          </button>
-          <button
-            onClick={() => setShowActionsManager(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-300 hover:text-zinc-100 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg transition-colors"
-            title="Manage custom scaffolder actions"
-          >
-            <Zap className="w-3.5 h-3.5" />
-            Custom Actions
           </button>
 
           <div className="w-px h-6 bg-zinc-700 mx-1" />
@@ -264,9 +253,6 @@ export default function BuilderLayout() {
 
       {/* GitHub Sync modal */}
       {syncMode && <GitHubSync mode={syncMode} onClose={() => setSyncMode(null)} />}
-
-      {/* Custom Actions Manager modal */}
-      {showActionsManager && <CustomActionsManager onClose={() => setShowActionsManager(false)} />}
     </div>
   );
 }
