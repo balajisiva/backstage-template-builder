@@ -9,7 +9,7 @@ import FlowView from '../panels/FlowView';
 import EndUserPreview from '../panels/EndUserPreview';
 import GitHubLoader from './GitHubLoader';
 import GitHubSync from './GitHubSync';
-import ActionRepositories from './ActionRepositories';
+import SettingsModal from './SettingsModal';
 import { createBlankTemplate } from '../../lib/yaml-utils';
 import { isConnected } from '../../lib/github-client';
 import {
@@ -54,7 +54,7 @@ export default function BuilderLayout() {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editName, setEditName] = useState('');
-  const [showActionRepos, setShowActionRepos] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   // Check GitHub connection on mount
   React.useEffect(() => {
@@ -188,14 +188,14 @@ export default function BuilderLayout() {
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Action Repositories */}
+          {/* Settings */}
           <button
-            onClick={() => setShowActionRepos(true)}
+            onClick={() => setShowSettings(true)}
             className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-zinc-700/50 rounded-lg transition-colors"
-            title="Configure action repositories"
+            title="Configure settings"
           >
             <Settings2 className="w-3.5 h-3.5" />
-            Actions
+            Settings
           </button>
 
           {/* Help/Docs */}
@@ -264,26 +264,6 @@ export default function BuilderLayout() {
             Load Template
           </button>
 
-          <div className="w-px h-6 bg-zinc-700 mx-1" />
-
-          {/* GitHub Sync buttons */}
-          {!ghConnected ? (
-            <button
-              onClick={() => setSyncMode('connect')}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-300 hover:text-zinc-100 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg transition-colors"
-            >
-              <GitBranch className="w-3.5 h-3.5" />
-              Connect GitHub
-            </button>
-          ) : (
-            <button
-              onClick={() => setSyncMode('push')}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-emerald-300 hover:text-emerald-100 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-lg transition-colors"
-            >
-              <ArrowUpFromLine className="w-3.5 h-3.5" />
-              Push
-            </button>
-          )}
           {viewMode !== 'preview' && (
             <>
               <div className="w-px h-6 bg-zinc-700 mx-1" />
@@ -376,8 +356,16 @@ export default function BuilderLayout() {
       {/* GitHub Sync modal */}
       {syncMode && <GitHubSync mode={syncMode} onClose={() => setSyncMode(null)} />}
 
-      {/* Action Repositories modal */}
-      {showActionRepos && <ActionRepositories onClose={() => setShowActionRepos(false)} />}
+      {/* Settings modal */}
+      {showSettings && (
+        <SettingsModal
+          onClose={() => setShowSettings(false)}
+          onOpenGitHubSync={(mode) => {
+            setShowSettings(false);
+            setSyncMode(mode);
+          }}
+        />
+      )}
     </div>
   );
 }
