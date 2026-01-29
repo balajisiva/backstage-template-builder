@@ -442,10 +442,15 @@ function ImportActions({
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/github?url=${encodeURIComponent(url.trim())}`);
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      const content = data.content || '';
+      // Convert GitHub URL to raw content URL
+      const rawUrl = url.trim()
+        .replace('github.com', 'raw.githubusercontent.com')
+        .replace('/blob/', '/');
+
+      const res = await fetch(rawUrl);
+      if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
+
+      const content = await res.text();
       const actions = parseActions(content);
       if (actions.length === 0) throw new Error('No valid actions found in the file');
       onImport(actions);

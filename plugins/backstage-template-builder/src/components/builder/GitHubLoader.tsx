@@ -9,6 +9,8 @@ import {
   listContents,
   listBranches,
   parseGitHubUrl,
+  getFile,
+  getRepo,
   GitHubRepo,
   GitHubBranch,
   GitHubContentItem,
@@ -84,15 +86,16 @@ export default function GitHubLoader({ onClose }: { onClose: () => void }) {
     setLoading(true);
     setError(null);
     try {
-      const token = getToken();
-      const res = await fetch(`/api/github?url=${encodeURIComponent(url)}`, {
-        headers: token ? { 'x-github-token': token } : {},
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      if (!data.content) throw new Error('No content returned');
+      // Convert GitHub URL to raw content URL
+      const rawUrl = url
+        .replace('github.com', 'raw.githubusercontent.com')
+        .replace('/blob/', '/');
 
-      const template = yamlToTemplate(data.content);
+      const res = await fetch(rawUrl);
+      if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
+
+      const content = await res.text();
+      const template = yamlToTemplate(content);
       dispatch({ type: 'SET_TEMPLATE', payload: template });
       onClose();
     } catch (err) {
@@ -108,15 +111,8 @@ export default function GitHubLoader({ onClose }: { onClose: () => void }) {
     try {
       const token = getToken();
       if (!token) throw new Error('GitHub not connected');
-      const res = await fetch('/api/github', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-github-token': token,
-        },
-        body: JSON.stringify({ action: 'get-file', owner, repo, path, ref }),
-      });
-      const data = await res.json();
+
+      const data = await getFile(owner, repo, path, ref);
       if (data.error) throw new Error(data.error);
       if (!data.content) throw new Error('File has no content');
       const decoded = atob(data.content);
@@ -375,13 +371,8 @@ function RepoBrowser({
     try {
       const token = getToken();
       if (!token) return;
-      const res = await fetch('/api/github', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-github-token': token },
-        body: JSON.stringify({ action: 'get-repo', owner: parsed.owner, repo: parsed.repo }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
+
+      const data = await getRepo(parsed.owner, parsed.repo);
       await handleSelectRepo(data);
     } catch {
       // silent
@@ -478,14 +469,12 @@ function RepoBrowser({
                     setLoading(true);
                     const token = getToken();
                     if (!token) return;
-                    fetch('/api/github', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json', 'x-github-token': token },
-                      body: JSON.stringify({ action: 'get-repo', owner: r.owner, repo: r.repo }),
-                    })
-                      .then((res) => res.json())
+                    getRepo(r.owner, r.repo)
                       .then((data) => {
-                        if (!data.error) handleSelectRepo(data);
+                        handleSelectRepo(data);
+                      })
+                      .catch(() => {
+                        // silent error
                       })
                       .finally(() => setLoading(false));
                   }}

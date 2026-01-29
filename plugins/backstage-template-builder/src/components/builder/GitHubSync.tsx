@@ -224,14 +224,16 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
     try {
       const parsed = parseGitHubUrl(pullUrl.trim());
       if (!parsed) throw new Error('Invalid GitHub URL');
-      const token = getToken();
-      const res = await fetch(`/api/github?url=${encodeURIComponent(pullUrl.trim())}`, {
-        headers: token ? { 'x-github-token': token } : {},
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      if (!data.content) throw new Error('No content returned');
-      const template = yamlToTemplate(data.content);
+      // Convert GitHub URL to raw content URL
+      const rawUrl = pullUrl.trim()
+        .replace('github.com', 'raw.githubusercontent.com')
+        .replace('/blob/', '/');
+
+      const res = await fetch(rawUrl);
+      if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
+
+      const content = await res.text();
+      const template = yamlToTemplate(content);
       dispatch({ type: 'SET_TEMPLATE', payload: template });
       setSuccess('Template loaded successfully');
       setTimeout(onClose, 1200);
