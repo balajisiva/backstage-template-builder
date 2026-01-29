@@ -29,6 +29,7 @@ import {
   Lock,
   Globe,
   Star,
+  X,
 } from 'lucide-react';
 
 interface RepoTemplate {
@@ -137,14 +138,23 @@ export default function GitHubLoader({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col">
         <div className="p-5 border-b border-zinc-700">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-blue-500/10 rounded-lg">
-              <FolderGit2 className="w-5 h-5 text-blue-400" />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-500/10 rounded-lg">
+                <FolderGit2 className="w-5 h-5 text-blue-400" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold text-zinc-100">Load Template</h2>
+                <p className="text-sm text-zinc-400">Import from a GitHub repository or select a sample</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-semibold text-zinc-100">Load Template</h2>
-              <p className="text-sm text-zinc-400">Import from a GitHub repository or select a sample</p>
-            </div>
+            <button
+              onClick={onClose}
+              className="p-1 hover:bg-zinc-800 rounded transition-colors"
+              title="Close"
+            >
+              <X className="w-5 h-5 text-zinc-400" />
+            </button>
           </div>
 
           {/* Mode tabs */}

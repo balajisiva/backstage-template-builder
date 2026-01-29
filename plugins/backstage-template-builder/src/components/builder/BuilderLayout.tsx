@@ -105,7 +105,11 @@ export default function BuilderLayout() {
       {/* Top bar */}
       <header className="h-14 border-b border-zinc-800 flex items-center justify-between px-4 shrink-0 bg-zinc-900/50 backdrop-blur-sm">
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
+          <button
+            onClick={handleNew}
+            className="flex items-center gap-2 hover:bg-zinc-800/50 rounded-lg px-2 py-1 transition-colors"
+            title="Go to home / Create new template"
+          >
             <Code2 className="w-5 h-5 text-blue-400" />
             <div className="flex flex-col">
               <span className="font-semibold text-sm tracking-tight">
@@ -115,7 +119,7 @@ export default function BuilderLayout() {
                 Visual authoring for Backstage scaffolder templates
               </span>
             </div>
-          </div>
+          </button>
           <span className="text-xs text-zinc-500 px-2 py-0.5 bg-zinc-800 rounded-full">
             v1beta3
           </span>
