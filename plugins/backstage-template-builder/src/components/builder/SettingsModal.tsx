@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Settings2, Database, GitBranch, FileText } from 'lucide-react';
 import ActionRepositoriesContent from './ActionRepositoriesContent';
-import { isConnected, validateToken, disconnectGitHub } from '../../lib/github-client';
+import { isConnected, validateToken, clearToken } from '../../lib/github-client';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -46,7 +46,7 @@ export default function SettingsModal({ onClose, onOpenGitHubSync }: SettingsMod
 
   const handleDisconnect = () => {
     if (confirm('Disconnect from GitHub? You will need to re-enter your token.')) {
-      disconnectGitHub();
+      clearToken();
       setGhConnected(false);
       setSuccess('Disconnected from GitHub');
     }
