@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useTemplateStore } from '../../store/template-store';
 import { Tag, X } from 'lucide-react';
+import { Tooltip } from '../ui/Tooltip';
 
 export default function MetadataPanel() {
   const { state, dispatch } = useTemplateStore();
@@ -100,27 +101,36 @@ export default function MetadataPanel() {
 
       <div className="grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium text-zinc-300 mb-1">Owner</label>
+          <label className="flex items-center gap-1.5 text-sm font-medium text-zinc-300 mb-1">
+            Owner
+            <Tooltip content="Team or user responsible for this template (e.g., 'team:platform' or 'user:jane')" />
+          </label>
           <input
             type="text"
             value={spec.owner}
             onChange={(e) => updateSpec('owner', e.target.value)}
-            placeholder="my-team"
+            placeholder="team:platform"
             className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-zinc-300 mb-1">System</label>
+          <label className="flex items-center gap-1.5 text-sm font-medium text-zinc-300 mb-1">
+            System
+            <Tooltip content="Backstage system this template belongs to (helps organize templates in the catalog)" />
+          </label>
           <input
             type="text"
             value={spec.system}
             onChange={(e) => updateSpec('system', e.target.value)}
-            placeholder="my-system"
+            placeholder="backend-services"
             className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-zinc-300 mb-1">Type</label>
+          <label className="flex items-center gap-1.5 text-sm font-medium text-zinc-300 mb-1">
+            Type
+            <Tooltip content="Template category (service, website, library, documentation, etc.)" />
+          </label>
           <select
             value={spec.type}
             onChange={(e) => updateSpec('type', e.target.value)}

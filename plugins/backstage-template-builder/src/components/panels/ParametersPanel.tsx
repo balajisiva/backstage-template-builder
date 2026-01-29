@@ -5,6 +5,7 @@ import { useTemplateStore } from '../../store/template-store';
 import { ParameterProperty, ParameterStep, ParameterFieldType } from '../../types/template';
 import { UI_FIELDS, UI_WIDGETS } from '../../lib/actions-catalog';
 import FieldPalette from '../builder/FieldPalette';
+import { Tooltip } from '../ui/Tooltip';
 import {
   Plus,
   Trash2,
@@ -209,7 +210,10 @@ function FieldEditor({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1">UI Field</label>
+              <label className="flex items-center gap-1.5 text-xs font-medium text-zinc-400 mb-1">
+                UI Field
+                <Tooltip content="Backstage-specific UI components like EntityPicker, RepoUrlPicker, or OwnerPicker for advanced input handling" />
+              </label>
               <select
                 value={property['ui:field'] || ''}
                 onChange={(e) => updateField({ 'ui:field': e.target.value || undefined })}
@@ -222,7 +226,10 @@ function FieldEditor({
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-zinc-400 mb-1">UI Widget</label>
+              <label className="flex items-center gap-1.5 text-xs font-medium text-zinc-400 mb-1">
+                UI Widget
+                <Tooltip content="Visual presentation for the field (password masking, textarea, radio buttons, etc.)" />
+              </label>
               <select
                 value={property['ui:widget'] || ''}
                 onChange={(e) => updateField({ 'ui:widget': e.target.value || undefined })}

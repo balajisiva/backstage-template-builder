@@ -29,6 +29,8 @@ import {
   Check,
   X,
   MessageSquare,
+  HelpCircle,
+  BookOpen,
 } from 'lucide-react';
 
 type ViewMode = 'editor' | 'flow' | 'preview';
@@ -183,6 +185,18 @@ export default function BuilderLayout() {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Help/Docs */}
+          <a
+            href="https://github.com/balajisiva/backstage-template-builder#readme"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-zinc-700/50 rounded-lg transition-colors"
+            title="View documentation"
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            Help
+          </a>
+
           {/* View mode toggle */}
           <div className="flex items-center bg-zinc-800 rounded-lg p-0.5 border border-zinc-700">
             <button
