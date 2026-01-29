@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useTemplateStore } from '../../store/template-store';
 import { TemplateStep } from '../../types/template';
-import { getAllActions, getActionDefinition } from '../../lib/actions-catalog';
+import { getAllActionsIncludingRepositories as getAllActions, getActionDefinition } from '../../lib/actions-catalog';
 import {
   Plus,
   Trash2,

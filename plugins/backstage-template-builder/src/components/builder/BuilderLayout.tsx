@@ -9,6 +9,7 @@ import FlowView from '../panels/FlowView';
 import EndUserPreview from '../panels/EndUserPreview';
 import GitHubLoader from './GitHubLoader';
 import GitHubSync from './GitHubSync';
+import ActionRepositories from './ActionRepositories';
 import { createBlankTemplate } from '../../lib/yaml-utils';
 import { isConnected } from '../../lib/github-client';
 import {
@@ -31,6 +32,7 @@ import {
   MessageSquare,
   HelpCircle,
   BookOpen,
+  Settings2,
 } from 'lucide-react';
 
 type ViewMode = 'editor' | 'flow' | 'preview';
@@ -52,6 +54,7 @@ export default function BuilderLayout() {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editName, setEditName] = useState('');
+  const [showActionRepos, setShowActionRepos] = useState(false);
 
   // Check GitHub connection on mount
   React.useEffect(() => {
@@ -185,6 +188,16 @@ export default function BuilderLayout() {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Action Repositories */}
+          <button
+            onClick={() => setShowActionRepos(true)}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-zinc-700/50 rounded-lg transition-colors"
+            title="Configure action repositories"
+          >
+            <Settings2 className="w-3.5 h-3.5" />
+            Actions
+          </button>
+
           {/* Help/Docs */}
           <a
             href="https://github.com/balajisiva/backstage-template-builder#readme"
@@ -362,6 +375,9 @@ export default function BuilderLayout() {
 
       {/* GitHub Sync modal */}
       {syncMode && <GitHubSync mode={syncMode} onClose={() => setSyncMode(null)} />}
+
+      {/* Action Repositories modal */}
+      {showActionRepos && <ActionRepositories onClose={() => setShowActionRepos(false)} />}
     </div>
   );
 }
