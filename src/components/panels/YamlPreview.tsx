@@ -2,10 +2,14 @@
 
 import React, { useState } from 'react';
 import { useTemplateStore } from '@/store/template-store';
-import { Copy, Check, Download, Upload } from 'lucide-react';
+import { Copy, Check, Download, Pencil, ArrowUpFromLine } from 'lucide-react';
 import { yamlToTemplate } from '@/lib/yaml-utils';
 
-export default function YamlPreview() {
+interface YamlPreviewProps {
+  onPush?: () => void;
+}
+
+export default function YamlPreview({ onPush }: YamlPreviewProps) {
   const { state, dispatch } = useTemplateStore();
   const [copied, setCopied] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -45,7 +49,7 @@ export default function YamlPreview() {
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between p-3 border-b border-zinc-700/50">
-        <h3 className="text-sm font-semibold text-zinc-300">YAML Output</h3>
+        <h3 className="text-sm font-semibold text-zinc-300">YAML</h3>
         <div className="flex items-center gap-1.5">
           {isEditing ? (
             <>
@@ -70,8 +74,16 @@ export default function YamlPreview() {
                 className="flex items-center gap-1 px-2 py-1 text-xs text-zinc-400 hover:text-zinc-200 bg-zinc-800 rounded transition-colors"
                 title="Edit YAML directly"
               >
-                <Upload className="w-3 h-3" />
+                <Pencil className="w-3 h-3" />
                 Edit
+              </button>
+              <button
+                onClick={onPush}
+                className="flex items-center gap-1 px-2 py-1 text-xs text-emerald-300 hover:text-emerald-100 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded transition-colors"
+                title="Push to GitHub"
+              >
+                <ArrowUpFromLine className="w-3 h-3" />
+                Push
               </button>
               <button
                 onClick={handleCopy}
