@@ -6,7 +6,7 @@ import {
   refreshRepositoryActions,
   ActionRepository,
 } from '../../lib/actions-catalog';
-import { X, Plus, RefreshCw, Server, Trash2, ToggleLeft, ToggleRight, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { X, Plus, RefreshCw, Database, Trash2, ToggleLeft, ToggleRight, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 interface ActionRepositoriesProps {
   onClose: () => void;
@@ -94,7 +94,7 @@ export default function ActionRepositories({ onClose }: ActionRepositoriesProps)
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-zinc-700">
           <div className="flex items-center gap-2">
-            <Server className="w-5 h-5 text-blue-400" />
+            <Database className="w-5 h-5 text-blue-400" />
             <h2 className="text-lg font-semibold text-zinc-100">Action Repositories</h2>
           </div>
           <button
