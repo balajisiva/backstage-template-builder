@@ -183,7 +183,41 @@ Contributions, ideas, and feedback are welcome!
 
 ## Screenshots
 
-(Add screenshots here to showcase the visual editor, flow view, and YAML preview)
+### Visual Template Editor
+
+Build templates using structured forms across four main sections:
+
+**Metadata** - Define template identity, owner, and tags
+![Template Metadata](.github/assets/Template_Meta_Data.png)
+
+**Parameters** - Create input fields with validation and UI widgets
+![Template Parameters](.github/assets/Template_Parameters.png)
+
+**Steps** - Configure scaffolder actions with detailed inputs
+![Template Steps](.github/assets/Template_Steps.png)
+
+![Step Detail Editor](.github/assets/Template_Step_Detail.png)
+
+**Output** - Define links shown after template execution
+![Template Output](.github/assets/Template_Output.png)
+
+### Execution Flow Visualization
+
+See how your scaffolder steps execute in a visual flow diagram
+![Flow View](.github/assets/Template_Flow_Visualization.png)
+
+### End-User Preview
+
+Preview what developers will see when using your template
+
+**Form View**
+![Template Preview Form](.github/assets/Template_Preview.png)
+
+**Review Step**
+![Template Preview Review](.github/assets/Template_Preview_Review.png)
+
+**Completion**
+![Template Preview Done](.github/assets/Template_Preview_Done.png)
 
 ## Roadmap
 
