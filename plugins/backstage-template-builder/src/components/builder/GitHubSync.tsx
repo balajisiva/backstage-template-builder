@@ -906,7 +906,6 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
         </div>
       )}
     </div>
-    </div>
   );
 }
 
