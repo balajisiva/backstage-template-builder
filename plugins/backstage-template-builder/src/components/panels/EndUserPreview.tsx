@@ -20,6 +20,7 @@ import {
   Bug,
   FolderOpen,
   Zap,
+  AlertTriangle,
 } from 'lucide-react';
 
 const STEP_ICONS: Record<string, React.ReactNode> = {
@@ -246,6 +247,23 @@ export default function EndUserPreview() {
         >
           Reset Preview
         </button>
+      </div>
+
+      {/* Warning Banner */}
+      <div className="bg-amber-50 border-b border-amber-200 px-6 py-3 shrink-0">
+        <div className="max-w-2xl mx-auto flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-medium text-amber-900">
+              Preview Mode - UI Simulation Only
+            </p>
+            <p className="text-xs text-amber-700 mt-1">
+              This preview simulates the user interface and workflow. It does <strong>not</strong> validate template actions,
+              test actual execution, or verify that steps are configured correctly. To fully test your template,
+              push it to a Backstage instance and run it in a real environment.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Progress stepper */}
