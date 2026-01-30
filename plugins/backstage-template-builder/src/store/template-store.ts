@@ -1,5 +1,3 @@
-'use client';
-
 import { createContext, useContext } from 'react';
 import {
   BackstageTemplate,
@@ -7,7 +5,7 @@ import {
   ParameterProperty,
   TemplateStep,
   OutputLink,
-} from '@/types/template';
+} from '../types/template';
 
 export type BuilderTab = 'metadata' | 'parameters' | 'steps' | 'output';
 

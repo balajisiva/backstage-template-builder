@@ -119,16 +119,19 @@ For more detailed integration instructions, troubleshooting, and configuration o
 
 ## GitHub Integration
 
-The plugin connects directly to GitHub to load and save templates. Users will need to provide a GitHub Personal Access Token with:
+The plugin connects directly to GitHub to load and save templates. Users will need to provide a GitHub Personal Access Token:
 
-**Classic Token:**
-- `repo` scope
+**Classic Token (recommended for simplicity):**
+- Scope: `repo` (Full control of private repositories)
+- [Create a classic token](https://github.com/settings/tokens/new)
 
-**Fine-grained Token:**
-- Contents: Read and Write
-- Metadata: Read
+**Fine-grained Token (for more granular permissions):**
+- Repository permissions:
+  - Contents: Read and Write
+  - Metadata: Read
+- [Create a fine-grained token](https://github.com/settings/personal-access-tokens/new)
 
-Tokens are stored in localStorage and persist across sessions.
+Tokens are stored in the browser's localStorage and persist across sessions. They are never sent to any backend server - all GitHub API calls are made directly from the browser.
 
 ## Usage
 
@@ -148,9 +151,7 @@ Once installed, users can:
 
 ## Development
 
-### Plugin Development
-
-To develop the plugin in isolation:
+To develop the plugin locally:
 
 ```bash
 cd plugins/backstage-template-builder
@@ -158,19 +159,18 @@ yarn install
 yarn start
 ```
 
-This will start the plugin at http://localhost:3000 using Backstage's dev utilities.
+This will start the plugin in development mode at http://localhost:3000 using Backstage's dev utilities.
 
-### Legacy Standalone App (Development Only)
+### Building
 
-The repository also contains the original standalone Next.js app used during initial development. This is **not recommended for production use** but can be useful for rapid prototyping:
+To build the plugin:
 
 ```bash
-# From the repository root
-npm install
-npm run dev
+cd plugins/backstage-template-builder
+yarn build
 ```
 
-> **Note:** The Backstage plugin is the recommended way to use this tool. The standalone app is maintained only for development purposes.
+The build output will be in the `dist/` directory.
 
 ## Architecture
 
@@ -226,6 +226,45 @@ Preview what developers will see when using your template
 
 **Completion**
 ![Template Preview Done](.github/assets/Template_Preview_Done.png)
+
+## Troubleshooting
+
+### Plugin not appearing in Backstage
+
+1. **Verify installation:**
+   ```bash
+   # Check that the plugin is in your workspace
+   ls plugins/backstage-template-builder
+
+   # Verify it's listed in package.json
+   grep "backstage-template-builder" packages/app/package.json
+   ```
+
+2. **Clear cache and rebuild:**
+   ```bash
+   yarn clean
+   yarn install
+   yarn dev
+   ```
+
+3. **Check browser console** for any error messages
+
+### Build errors
+
+If you get TypeScript compilation errors:
+
+```bash
+cd plugins/backstage-template-builder
+rm -rf dist dist-types node_modules
+yarn install
+yarn build
+```
+
+### GitHub integration issues
+
+- **"Resource not accessible"**: Token needs `repo` scope (Classic) or Contents R/W + Metadata R (Fine-grained)
+- **Token not persisting**: Check that browser localStorage is enabled
+- **CORS errors**: The plugin makes direct API calls to GitHub - ensure your browser allows this
 
 ## Roadmap
 

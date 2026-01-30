@@ -318,7 +318,6 @@ export default function GitHubLoader({ onClose }: { onClose: () => void }) {
 
 function RepoBrowser({
   isConnected,
-  loading: parentLoading,
   onLoadTemplate,
 }: {
   isConnected: boolean;

@@ -17,7 +17,6 @@ import {
   AlertCircle,
   Loader2,
   Settings2,
-  FileText,
   ChevronDown,
   ChevronRight,
 } from 'lucide-react';

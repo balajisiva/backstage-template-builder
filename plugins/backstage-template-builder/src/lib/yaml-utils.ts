@@ -6,7 +6,7 @@ import {
   TemplateStep,
   TemplateOutput,
   OutputLink,
-} from '@/types/template';
+} from '../types/template';
 import { v4 as uuidv4 } from 'uuid';
 
 /**

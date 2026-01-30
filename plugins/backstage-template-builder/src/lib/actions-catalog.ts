@@ -1,4 +1,4 @@
-import { ActionDefinition, UIFieldDefinition } from '@/types/template';
+import { ActionDefinition, UIFieldDefinition } from '../types/template';
 
 export const BUILT_IN_ACTIONS: ActionDefinition[] = [
   // Fetch actions

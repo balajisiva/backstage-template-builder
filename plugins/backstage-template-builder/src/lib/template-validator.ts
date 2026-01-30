@@ -1,4 +1,4 @@
-import { BackstageTemplate, TemplateStep, ParameterProperty } from '../types/template';
+import { BackstageTemplate, TemplateStep } from '../types/template';
 import { getActionDefinition } from './actions-catalog';
 
 export type ValidationSeverity = 'error' | 'warning' | 'info';

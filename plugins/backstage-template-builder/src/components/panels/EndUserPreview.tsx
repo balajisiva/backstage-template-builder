@@ -12,7 +12,6 @@ import {
   ExternalLink,
   Loader2,
   CircleCheck,
-  AlertCircle,
   Download,
   Upload,
   Database,
@@ -405,7 +404,6 @@ export default function EndUserPreview() {
                   const category = actionDef?.category || 'custom';
                   const isDone = i < runningStep;
                   const isCurrent = i === runningStep;
-                  const isPending = i > runningStep;
 
                   return (
                     <div

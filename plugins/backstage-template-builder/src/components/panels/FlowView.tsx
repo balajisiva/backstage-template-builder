@@ -17,7 +17,6 @@ import {
   Settings,
   ExternalLink,
   FileText,
-  Plus,
   ChevronRight,
 } from 'lucide-react';
 import {

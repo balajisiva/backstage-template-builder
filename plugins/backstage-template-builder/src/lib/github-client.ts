@@ -34,6 +34,7 @@ export interface GitHubFileResult {
   path?: string;
   encoding?: string;
   html_url?: string;
+  error?: string;
 }
 
 export interface PushResult {

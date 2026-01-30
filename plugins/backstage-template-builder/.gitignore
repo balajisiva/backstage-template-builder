@@ -1,0 +1,31 @@
+# Build output
+dist/
+dist-types/
+
+# Dependencies
+node_modules/
+yarn.lock
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Generated declaration files (keep only .tsx and .ts source)
+src/**/*.d.ts
+dev/**/*.d.ts
+
+# Test coverage
+coverage/
+
+# Cache
+.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

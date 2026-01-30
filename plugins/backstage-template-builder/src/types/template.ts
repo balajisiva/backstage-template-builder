@@ -55,7 +55,7 @@ export interface ParameterProperty {
 }
 
 // Step types
-export type StepActionCategory = 'fetch' | 'publish' | 'catalog' | 'github' | 'gitlab' | 'debug' | 'fs' | 'custom';
+export type StepActionCategory = 'fetch' | 'publish' | 'catalog' | 'github' | 'gitlab' | 'debug' | 'fs' | 'custom' | 'utilities';
 
 export interface TemplateStep {
   id: string;

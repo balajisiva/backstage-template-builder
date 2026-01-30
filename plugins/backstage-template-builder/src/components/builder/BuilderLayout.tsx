@@ -11,7 +11,6 @@ import GitHubLoader from './GitHubLoader';
 import GitHubSync from './GitHubSync';
 import SettingsModal from './SettingsModal';
 import { createBlankTemplate } from '../../lib/yaml-utils';
-import { isConnected } from '../../lib/github-client';
 import {
   FileText,
   Settings,
@@ -24,13 +23,10 @@ import {
   PanelRightClose,
   Eye,
   GitFork,
-  ArrowUpFromLine,
-  GitBranch,
   Pencil,
   Check,
   X,
   MessageSquare,
-  HelpCircle,
   BookOpen,
   Settings2,
   ArrowLeft,
@@ -51,16 +47,10 @@ export default function BuilderLayout() {
   const [showYaml, setShowYaml] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>('editor');
   const [syncMode, setSyncMode] = useState<'connect' | 'pull' | 'push' | null>(null);
-  const [ghConnected, setGhConnected] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editName, setEditName] = useState('');
   const [showSettings, setShowSettings] = useState(false);
-
-  // Check GitHub connection on mount
-  React.useEffect(() => {
-    setGhConnected(isConnected());
-  }, [syncMode]);
 
   const handleNew = () => {
     if (state.isDirty && !confirm('You have unsaved changes. Create a new template?')) return;
