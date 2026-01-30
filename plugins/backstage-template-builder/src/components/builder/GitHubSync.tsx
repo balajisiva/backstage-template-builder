@@ -31,11 +31,11 @@ import {
   ArrowDownToLine,
   ArrowUpFromLine,
   KeyRound,
-  LogOut,
   ExternalLink,
   FolderTree,
   GitPullRequest,
   RefreshCw,
+  CircleCheck,
 } from 'lucide-react';
 
 type SyncMode = 'connect' | 'pull' | 'push';
@@ -349,7 +349,7 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
                   className="p-1 text-zinc-500 hover:text-red-400 transition-colors"
                   title="Disconnect"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
             )}
