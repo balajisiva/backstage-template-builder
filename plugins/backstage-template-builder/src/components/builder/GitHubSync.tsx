@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTemplateStore } from '../../store/template-store';
 import { templateToYaml, yamlToTemplate } from '../../lib/yaml-utils';
+import { validateTemplate, getIssueSummary, ValidationIssue } from '../../lib/template-validator';
 import {
   GitHubUser,
   GitHubRepo,
@@ -71,6 +72,11 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
   const [useNewBranch, setUseNewBranch] = useState(false);
   const [existingSha, setExistingSha] = useState<string | undefined>();
   const [pushResult, setPushResult] = useState<{ commitUrl: string; fileUrl: string } | null>(null);
+
+  // Validation state
+  const [showValidation, setShowValidation] = useState(false);
+  const [validationIssues, setValidationIssues] = useState<ValidationIssue[]>([]);
+  const [validationAccepted, setValidationAccepted] = useState(false);
 
   // Set smart default for push path based on template name
   useEffect(() => {
@@ -245,11 +251,20 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
   };
 
   // --- Push ---
+  const handleValidateAndPush = () => {
+    // Run validation
+    const issues = validateTemplate(state.template);
+    setValidationIssues(issues);
+    setShowValidation(true);
+    setValidationAccepted(false);
+  };
+
   const handlePush = async () => {
     if (!selectedRepo) return;
     setLoading(true);
     setError(null);
     setSuccess(null);
+    setShowValidation(false);
     try {
       const yamlContent = templateToYaml(state.template);
       let targetBranch = selectedBranch;
@@ -686,12 +701,12 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
                       </div>
 
                       <button
-                        onClick={handlePush}
+                        onClick={handleValidateAndPush}
                         disabled={loading}
                         className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-700 text-white disabled:text-zinc-400 rounded-lg text-sm font-medium transition-colors"
                       >
                         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowUpFromLine className="w-4 h-4" />}
-                        Push to GitHub
+                        Validate & Push to GitHub
                       </button>
                     </div>
                   )}
@@ -711,6 +726,186 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
           </button>
         </div>
       </div>
+
+      {/* Validation Modal */}
+      {showValidation && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+          <div className="bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col">
+            {/* Validation Header */}
+            <div className="p-5 border-b border-zinc-700 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-500/10 rounded-lg">
+                  <Check className="w-5 h-5 text-blue-400" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-zinc-100">Template Validation</h2>
+                  <p className="text-sm text-zinc-400">
+                    Review potential issues before pushing to GitHub
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowValidation(false)}
+                className="p-1 hover:bg-zinc-800 rounded transition-colors"
+                title="Close"
+              >
+                <X className="w-5 h-5 text-zinc-400" />
+              </button>
+            </div>
+
+            {/* Validation Content */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-4">
+              {(() => {
+                const summary = getIssueSummary(validationIssues);
+                return (
+                  <>
+                    {/* Summary */}
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+                        <div className="text-2xl font-bold text-red-400">{summary.errors}</div>
+                        <div className="text-xs text-red-300 mt-0.5">Errors</div>
+                      </div>
+                      <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
+                        <div className="text-2xl font-bold text-amber-400">{summary.warnings}</div>
+                        <div className="text-xs text-amber-300 mt-0.5">Warnings</div>
+                      </div>
+                      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+                        <div className="text-2xl font-bold text-blue-400">{summary.infos}</div>
+                        <div className="text-xs text-blue-300 mt-0.5">Info</div>
+                      </div>
+                    </div>
+
+                    {/* Success message if no errors */}
+                    {summary.total === 0 && (
+                      <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 flex items-center gap-3">
+                        <CircleCheck className="w-5 h-5 text-emerald-400 shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-emerald-400">
+                            No issues found!
+                          </p>
+                          <p className="text-xs text-emerald-300 mt-0.5">
+                            Your template looks good and is ready to push.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Issues List */}
+                    {validationIssues.length > 0 && (
+                      <div className="space-y-2">
+                        {validationIssues.map((issue, index) => (
+                          <div
+                            key={index}
+                            className={`p-3 rounded-lg border ${
+                              issue.severity === 'error'
+                                ? 'bg-red-500/10 border-red-500/20'
+                                : issue.severity === 'warning'
+                                ? 'bg-amber-500/10 border-amber-500/20'
+                                : 'bg-blue-500/10 border-blue-500/20'
+                            }`}
+                          >
+                            <div className="flex items-start gap-2">
+                              <AlertCircle
+                                className={`w-4 h-4 shrink-0 mt-0.5 ${
+                                  issue.severity === 'error'
+                                    ? 'text-red-400'
+                                    : issue.severity === 'warning'
+                                    ? 'text-amber-400'
+                                    : 'text-blue-400'
+                                }`}
+                              />
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <span
+                                    className={`text-xs font-medium uppercase ${
+                                      issue.severity === 'error'
+                                        ? 'text-red-400'
+                                        : issue.severity === 'warning'
+                                        ? 'text-amber-400'
+                                        : 'text-blue-400'
+                                    }`}
+                                  >
+                                    {issue.severity}
+                                  </span>
+                                  {issue.location && (
+                                    <span className="text-xs text-zinc-500 font-mono">
+                                      {issue.location}
+                                    </span>
+                                  )}
+                                </div>
+                                <p
+                                  className={`text-sm mt-1 ${
+                                    issue.severity === 'error'
+                                      ? 'text-red-200'
+                                      : issue.severity === 'warning'
+                                      ? 'text-amber-200'
+                                      : 'text-blue-200'
+                                  }`}
+                                >
+                                  {issue.message}
+                                </p>
+                                {issue.suggestion && (
+                                  <p className="text-xs text-zinc-400 mt-1">
+                                    💡 {issue.suggestion}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Warning about errors */}
+                    {summary.errors > 0 && (
+                      <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                        <p className="text-sm text-red-300">
+                          <strong>⚠️ Critical issues detected.</strong> Your template has {summary.errors} error{summary.errors !== 1 ? 's' : ''} that may prevent it from working correctly. We recommend fixing these issues before pushing.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Accept checkbox */}
+                    <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                      <label className="flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={validationAccepted}
+                          onChange={(e) => setValidationAccepted(e.target.checked)}
+                          className="w-4 h-4 mt-0.5 rounded bg-zinc-900 border-zinc-700 text-blue-500 focus:ring-blue-500/40"
+                        />
+                        <span className="text-sm text-zinc-300">
+                          I understand that this validation is not exhaustive and does not test actual template execution.
+                          {summary.errors > 0 && ' I want to proceed despite the errors listed above.'}
+                        </span>
+                      </label>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+
+            {/* Validation Footer */}
+            <div className="p-4 border-t border-zinc-700 flex justify-between">
+              <button
+                onClick={() => setShowValidation(false)}
+                className="px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handlePush}
+                disabled={!validationAccepted || loading}
+                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-700 text-white disabled:text-zinc-400 rounded-lg text-sm font-medium transition-colors"
+              >
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowUpFromLine className="w-4 h-4" />}
+                Proceed with Push
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
     </div>
   );
 }
