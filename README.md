@@ -116,6 +116,7 @@ This plugin focuses on:
 For more detailed integration instructions, troubleshooting, and configuration options, see:
 - [Plugin README](plugins/backstage-template-builder/README.md)
 - [Integration Guide](plugins/backstage-template-builder/INTEGRATION.md)
+- [RHDH Installation Guide](plugins/backstage-template-builder/RHDH-INSTALLATION.md) - For Red Hat Developer Hub users
 
 ## GitHub Integration
 

@@ -18,7 +18,8 @@
     "build": "backstage-cli package build",
     "lint": "backstage-cli package lint",
     "test": "backstage-cli package test",
-    "clean": "backstage-cli package clean"
+    "clean": "backstage-cli package clean",
+    "export-dynamic": "backstage-cli package export-dynamic-plugin --embed-package @types/js-yaml --embed-package @types/uuid"
   },
   "dependencies": {
     "@backstage/catalog-model": "^1.4.0",
