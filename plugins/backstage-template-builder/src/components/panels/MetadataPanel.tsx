@@ -8,7 +8,7 @@ import { identityApiRef } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import type { Entity } from '@backstage/catalog-model';
 
-export default function MetadataPanel() {
+export function MetadataPanel() {
   const { state, dispatch } = useTemplateStore();
   const { metadata } = state.template;
   const { spec } = state.template;

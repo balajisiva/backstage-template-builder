@@ -252,7 +252,7 @@ function FlowConnector({ hasConditional }: { hasConditional?: boolean }) {
   );
 }
 
-export default function FlowView({ onSwitchToTab }: { onSwitchToTab: (tab: string) => void }) {
+export function FlowView({ onSwitchToTab }: { onSwitchToTab: (tab: string) => void }) {
   const { state, dispatch } = useTemplateStore();
   const { template } = state;
   const { parameters, steps, output } = template.spec;

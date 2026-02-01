@@ -15,7 +15,7 @@ interface SettingsModalProps {
 
 type SettingsTab = 'github' | 'actions' | 'general';
 
-export default function SettingsModal({ onClose }: SettingsModalProps) {
+export function SettingsModal({ onClose }: SettingsModalProps) {
   const [activeTab, setActiveTab] = useState<SettingsTab>('github');
   const [ghConnected, setGhConnected] = useState(isConnected());
   const [ghToken, setGhToken] = useState('');

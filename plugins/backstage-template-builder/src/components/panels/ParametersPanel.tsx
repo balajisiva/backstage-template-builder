@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useTemplateStore } from '../../store/template-store';
 import { ParameterProperty, ParameterStep, ParameterFieldType } from '../../types/template';
 import { UI_FIELDS, UI_WIDGETS } from '../../lib/actions-catalog';
-import FieldPalette from '../builder/FieldPalette';
+import { FieldPalette } from '../builder/FieldPalette';
 import { Tooltip } from '../ui/Tooltip';
 import {
   Plus,
@@ -298,7 +298,7 @@ function FieldEditor({
   );
 }
 
-export default function ParametersPanel() {
+export function ParametersPanel() {
   const { state, dispatch } = useTemplateStore();
   const { parameters } = state.template.spec;
   const selectedStep = parameters.find((p) => p.id === state.selectedParameterStepId);

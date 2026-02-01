@@ -9,7 +9,7 @@ interface YamlPreviewProps {
   onPush?: () => void;
 }
 
-export default function YamlPreview({ onPush }: YamlPreviewProps) {
+export function YamlPreview({ onPush }: YamlPreviewProps) {
   const { state, dispatch } = useTemplateStore();
   const [copied, setCopied] = useState(false);
   const [isEditing, setIsEditing] = useState(false);

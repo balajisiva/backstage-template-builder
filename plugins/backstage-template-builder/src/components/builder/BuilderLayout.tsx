@@ -7,10 +7,12 @@ import OutputPanel from '../panels/OutputPanel';
 import YamlPreview from '../panels/YamlPreview';
 import FlowView from '../panels/FlowView';
 import EndUserPreview from '../panels/EndUserPreview';
+import ValidationPanel from '../panels/ValidationPanel';
 import GitHubLoader from './GitHubLoader';
 import GitHubSync from './GitHubSync';
 import SettingsModal from './SettingsModal';
 import { createBlankTemplate } from '../../lib/yaml-utils';
+import { validateTemplate, ValidationIssue } from '../../lib/template-validator';
 import {
   FileText,
   Settings,
@@ -30,6 +32,9 @@ import {
   BookOpen,
   Settings2,
   ArrowLeft,
+  AlertTriangle,
+  AlertCircle,
+  ShieldCheck,
 } from 'lucide-react';
 
 type ViewMode = 'editor' | 'flow' | 'preview';
@@ -51,6 +56,7 @@ export default function BuilderLayout() {
   const [editTitle, setEditTitle] = useState('');
   const [editName, setEditName] = useState('');
   const [showSettings, setShowSettings] = useState(false);
+  const [validationIssues, setValidationIssues] = useState<ValidationIssue[]>([]);
 
   const handleNew = () => {
     if (state.isDirty && !confirm('You have unsaved changes. Create a new template?')) return;
@@ -89,6 +95,17 @@ export default function BuilderLayout() {
     } else if (e.key === 'Escape') {
       handleCancelEdit();
     }
+  };
+
+  const handleValidate = () => {
+    const issues = validateTemplate(state.template);
+    setValidationIssues(issues);
+    dispatch({ type: 'SET_TAB', payload: 'validation' });
+  };
+
+  const handleClearValidation = () => {
+    setValidationIssues([]);
+    dispatch({ type: 'SET_TAB', payload: 'metadata' });
   };
 
   return (
@@ -274,6 +291,36 @@ export default function BuilderLayout() {
                     {tab.label}
                   </button>
                 ))}
+
+                {/* Separator */}
+                <div className="pt-2 mt-2 border-t border-zinc-800" />
+
+                {/* Validate button */}
+                <button
+                  onClick={handleValidate}
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent transition-all"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  Validate
+                </button>
+
+                {/* Fix Issues tab (conditional) */}
+                {validationIssues.length > 0 && (
+                  <button
+                    onClick={() => dispatch({ type: 'SET_TAB', payload: 'validation' })}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all ${
+                      state.activeTab === 'validation'
+                        ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                        : 'text-amber-400 hover:text-amber-300 hover:bg-amber-500/5 border border-transparent'
+                    }`}
+                  >
+                    <AlertCircle className="w-4 h-4" />
+                    <span>Fix Issues</span>
+                    <span className="ml-auto bg-amber-500/20 text-amber-300 text-xs px-1.5 py-0.5 rounded">
+                      {validationIssues.length}
+                    </span>
+                  </button>
+                )}
               </div>
 
               {/* Bottom menu */}
@@ -314,6 +361,9 @@ export default function BuilderLayout() {
               {state.activeTab === 'parameters' && <ParametersPanel />}
               {state.activeTab === 'steps' && <StepsPanel />}
               {state.activeTab === 'output' && <OutputPanel />}
+              {state.activeTab === 'validation' && (
+                <ValidationPanel issues={validationIssues} onClear={handleClearValidation} />
+              )}
             </main>
           </>
         )}

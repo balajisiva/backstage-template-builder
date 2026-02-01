@@ -5,7 +5,7 @@ import { useTemplateStore } from '../../store/template-store';
 import { OutputLink } from '../../types/template';
 import { Plus, Trash2, ExternalLink, BookOpen } from 'lucide-react';
 
-export default function OutputPanel() {
+export function OutputPanel() {
   const { state, dispatch } = useTemplateStore();
   const { links } = state.template.spec.output;
 

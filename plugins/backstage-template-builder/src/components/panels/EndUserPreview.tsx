@@ -175,7 +175,7 @@ function FormFieldPreview({
   );
 }
 
-export default function EndUserPreview() {
+export function EndUserPreview() {
   const { state } = useTemplateStore();
   const { template } = state;
   const { parameters, steps, output } = template.spec;

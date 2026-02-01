@@ -75,7 +75,7 @@ function saveRecentRepo(owner: string, repo: string) {
   localStorage.setItem(RECENT_REPOS_KEY, JSON.stringify(recent.slice(0, 5)));
 }
 
-export default function GitHubLoader({ onClose }: { onClose: () => void }) {
+export function GitHubLoader({ onClose }: { onClose: () => void }) {
   const { dispatch } = useTemplateStore();
   const [mode, setMode] = useState<'samples' | 'url' | 'browse'>('samples');
   const [repoUrl, setRepoUrl] = useState('');

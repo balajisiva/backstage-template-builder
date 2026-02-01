@@ -7,7 +7,7 @@ import {
   OutputLink,
 } from '../types/template';
 
-export type BuilderTab = 'metadata' | 'parameters' | 'steps' | 'output';
+export type BuilderTab = 'metadata' | 'parameters' | 'steps' | 'output' | 'validation';
 
 export interface TemplateState {
   template: BackstageTemplate;

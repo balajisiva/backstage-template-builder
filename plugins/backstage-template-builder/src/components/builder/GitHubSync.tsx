@@ -120,6 +120,17 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
     if (user) loadRepos();
   }, [user, loadRepos]);
 
+  // Auto-search repos with debounce when search term changes
+  useEffect(() => {
+    if (!user) return;
+
+    const timeoutId = setTimeout(() => {
+      loadRepos(repoSearch || undefined);
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [repoSearch, user, loadRepos]);
+
   // Load branches when repo selected
   useEffect(() => {
     if (selectedRepo) {
@@ -180,22 +191,6 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
     setSelectedRepo(null);
     setBranches([]);
     setMode('connect');
-  };
-
-  const handleRepoSearch = async () => {
-    if (!repoSearch.trim()) {
-      loadRepos();
-      return;
-    }
-    setLoading(true);
-    try {
-      const r = await listRepos(repoSearch.trim());
-      setRepos(r);
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
   };
 
   // --- Pull ---
@@ -526,7 +521,6 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
                   repos={repos}
                   search={repoSearch}
                   onSearchChange={setRepoSearch}
-                  onSearch={handleRepoSearch}
                   onSelect={setSelectedRepo}
                   loading={loading}
                 />
@@ -614,7 +608,6 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
                       repos={repos}
                       search={repoSearch}
                       onSearchChange={setRepoSearch}
-                      onSearch={handleRepoSearch}
                       onSelect={setSelectedRepo}
                       loading={loading}
                     />
@@ -730,9 +723,9 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
       {/* Validation Modal */}
       {showValidation && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col">
+          <div className="bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl w-full max-w-xl max-h-[55vh] flex flex-col">
             {/* Validation Header */}
-            <div className="p-5 border-b border-zinc-700 flex items-center justify-between">
+            <div className="flex-shrink-0 p-5 border-b border-zinc-700 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-500/10 rounded-lg">
                   <Check className="w-5 h-5 text-blue-400" />
@@ -754,7 +747,7 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
             </div>
 
             {/* Validation Content */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4">
+            <div className="flex-1 min-h-0 overflow-y-auto p-5 space-y-4">
               {(() => {
                 const summary = getIssueSummary(validationIssues);
                 return (
@@ -886,7 +879,7 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
             </div>
 
             {/* Validation Footer */}
-            <div className="p-4 border-t border-zinc-700 flex justify-between">
+            <div className="flex-shrink-0 p-4 border-t border-zinc-700 flex justify-between items-center">
               <button
                 onClick={() => setShowValidation(false)}
                 className="px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
@@ -915,30 +908,30 @@ function RepoBrowser({
   repos,
   search,
   onSearchChange,
-  onSearch,
   onSelect,
   loading,
 }: {
   repos: GitHubRepo[];
   search: string;
   onSearchChange: (s: string) => void;
-  onSearch: () => void;
   onSelect: (r: GitHubRepo) => void;
   loading: boolean;
 }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 rounded-lg px-3">
-        <Search className="w-4 h-4 text-zinc-400" />
+        {loading ? (
+          <Loader2 className="w-4 h-4 text-zinc-400 animate-spin" />
+        ) : (
+          <Search className="w-4 h-4 text-zinc-400" />
+        )}
         <input
           type="text"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && onSearch()}
-          placeholder="Search repositories..."
+          placeholder="Search repositories (auto-updates)..."
           className="flex-1 bg-transparent py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none"
         />
-        {loading && <Loader2 className="w-4 h-4 text-zinc-500 animate-spin" />}
       </div>
       <div className="max-h-[300px] overflow-y-auto space-y-1">
         {repos.map((repo) => (
@@ -962,7 +955,9 @@ function RepoBrowser({
           </button>
         ))}
         {repos.length === 0 && !loading && (
-          <p className="text-sm text-zinc-500 text-center py-4">No repositories found. Try searching.</p>
+          <p className="text-sm text-zinc-500 text-center py-4">
+            {search ? 'No repositories match your search.' : 'No repositories found.'}
+          </p>
         )}
       </div>
     </div>

@@ -8,7 +8,7 @@ import {
 } from '../../store/template-store';
 import { createBlankTemplate, templateToYaml } from '../../lib/yaml-utils';
 
-export default function TemplateProvider({ children }: { children: React.ReactNode }) {
+export function TemplateProvider({ children }: { children: React.ReactNode }) {
   const blank = createBlankTemplate();
   const initialState: TemplateState = {
     template: blank,

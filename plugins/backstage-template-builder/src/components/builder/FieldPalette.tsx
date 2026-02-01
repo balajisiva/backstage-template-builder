@@ -24,7 +24,7 @@ interface FieldPaletteProps {
   onAddField: (type: ParameterFieldType, uiField?: string) => void;
 }
 
-export default function FieldPalette({ onAddField }: FieldPaletteProps) {
+export function FieldPalette({ onAddField }: FieldPaletteProps) {
   return (
     <div className="space-y-4">
       <div>

@@ -224,7 +224,7 @@ function StepDetailEditor({ step }: { step: TemplateStep }) {
   );
 }
 
-export default function StepsPanel() {
+export function StepsPanel() {
   const { state, dispatch } = useTemplateStore();
   const { steps } = state.template.spec;
   const [searchTerm, setSearchTerm] = useState('');

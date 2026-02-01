@@ -13,6 +13,12 @@
   "backstage": {
     "role": "frontend-plugin"
   },
+  "scalprum": {
+    "name": "internal.plugin-backstage-template-builder",
+    "exposedModules": {
+      "PluginRoot": "./src/rhdh-entry.ts"
+    }
+  },
   "scripts": {
     "start": "backstage-cli package start",
     "build": "backstage-cli package build",
@@ -55,7 +61,10 @@
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@types/js-yaml": "^4.0.9",
-    "@types/uuid": "^10.0.0"
+    "@types/uuid": "^10.0.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.0"
   },
   "files": [
     "dist"

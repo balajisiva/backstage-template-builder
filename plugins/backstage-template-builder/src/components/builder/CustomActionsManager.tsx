@@ -37,7 +37,7 @@ interface CustomActionsManagerProps {
   onClose: () => void;
 }
 
-export default function CustomActionsManager({ onClose }: CustomActionsManagerProps) {
+export function CustomActionsManager({ onClose }: CustomActionsManagerProps) {
   const [actions, setActions] = useState<ActionDefinition[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showImport, setShowImport] = useState(false);

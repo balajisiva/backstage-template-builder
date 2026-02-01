@@ -12,7 +12,7 @@ interface ActionRepositoriesProps {
   onClose: () => void;
 }
 
-export default function ActionRepositories({ onClose }: ActionRepositoriesProps) {
+export function ActionRepositories({ onClose }: ActionRepositoriesProps) {
   const [repositories, setRepositories] = useState<ActionRepository[]>([]);
   const [newUrl, setNewUrl] = useState('');
   const [newName, setNewName] = useState('');
