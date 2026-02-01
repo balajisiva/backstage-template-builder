@@ -19,10 +19,11 @@ This plugin is designed for platform teams who want faster, safer iteration on t
 
 - **Visual template editor** — Create and edit scaffolder templates using structured forms instead of hand-editing YAML
 - **Live YAML view** — Always see the generated YAML side-by-side to retain transparency and control
+- **Template validation** — Validate templates at any time with clickable issues that navigate directly to problems
 - **Execution flow visualization** — Understand how scaffolder steps execute through a clear, step-by-step flow view
 - **Action discovery** — Browse and add common scaffolder actions (fetch, publish, catalog, custom actions)
 - **Preview experience** — See what the end-user form will look like before publishing the template
-- **GitHub integration** — Load templates from GitHub repos and push changes back
+- **GitHub integration** — Load templates from GitHub repos with live search, push changes back with validation
 
 ## Why this exists
 
@@ -139,16 +140,17 @@ Tokens are stored in the browser's localStorage and persist across sessions. The
 Once installed, users can:
 
 1. **Create new templates** — Click "New" to start with a blank template
-2. **Load from GitHub** — Import existing templates from repositories
+2. **Load from GitHub** — Import existing templates from repositories with live search
 3. **Edit visually** — Use the tabbed interface to configure:
    - **Metadata** — Name, title, description, tags, owner
    - **Parameters** — Input fields with validation, UI widgets, and conditional logic
    - **Steps** — Scaffolder actions (fetch, publish, debug, custom)
    - **Output** — Links displayed after template execution
-4. **Preview YAML** — See live YAML output and edit directly if needed
-5. **Visualize flow** — View execution flow as a directed graph
-6. **Preview end-user experience** — See what developers will see
-7. **Save to GitHub** — Push templates back to repositories
+4. **Validate anytime** — Click "Validate" to check for errors, warnings, and issues; clickable results navigate directly to the problem
+5. **Preview YAML** — See live YAML output and edit directly if needed
+6. **Visualize flow** — View execution flow as a directed graph
+7. **Preview end-user experience** — See what developers will see
+8. **Save to GitHub** — Push templates back to repositories with pre-push validation
 
 ## Development
 
@@ -178,9 +180,10 @@ The build output will be in the `dist/` directory.
 - **Frontend-only plugin** — No backend services required
 - **State management** — React Context + useReducer
 - **YAML generation** — js-yaml library
+- **Template validation** — Client-side validation with smart navigation to issues
 - **Drag-and-drop** — @dnd-kit for parameter and step reordering
 - **UI components** — Radix UI primitives with Tailwind CSS
-- **GitHub integration** — Direct API calls from the browser (no proxy needed)
+- **GitHub integration** — Direct API calls from the browser with live search (no proxy needed)
 
 ## Status
 
