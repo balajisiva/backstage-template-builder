@@ -430,12 +430,16 @@ function RepoBrowser({
 
   if (!isConnected) {
     return (
-      <div className="text-center py-8 space-y-3">
-        <FolderGit2 className="w-10 h-10 mx-auto text-zinc-600" />
-        <p className="text-sm text-zinc-400">Connect GitHub to browse your repositories</p>
-        <p className="text-xs text-zinc-500">
-          Use the &quot;Connect GitHub&quot; button in the top bar to authenticate first.
-        </p>
+      <div className="text-center py-12 space-y-4">
+        <div className="inline-flex p-4 bg-zinc-800/50 rounded-full">
+          <FolderGit2 className="w-10 h-10 text-zinc-500" />
+        </div>
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-zinc-300">GitHub Connection Required</p>
+          <p className="text-xs text-zinc-500 max-w-xs mx-auto">
+            To browse repositories, you need to connect your GitHub account first. Close this modal and click the <strong className="text-zinc-400">&quot;Connect GitHub&quot;</strong> or <strong className="text-zinc-400">&quot;Pull&quot;</strong> button in the top bar.
+          </p>
+        </div>
       </div>
     );
   }

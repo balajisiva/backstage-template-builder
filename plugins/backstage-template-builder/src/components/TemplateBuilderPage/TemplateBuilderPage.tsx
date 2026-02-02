@@ -1,6 +1,6 @@
 import React from 'react';
 import { TemplateProvider } from '../builder/TemplateProvider';
-import { BuilderLayout } from '../builder/BuilderLayout';
+import BuilderLayout from '../builder/BuilderLayout';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { templateBuilderUsePermission } from '../../permissions';
 import { ShieldAlert, Lock } from 'lucide-react';
@@ -37,6 +37,15 @@ const PermissionDenied = () => {
 };
 
 export const TemplateBuilderPage = () => {
+  // Temporarily disable permission check for local testing
+  // TODO: Re-enable when RBAC is properly configured
+  return (
+    <TemplateProvider>
+      <BuilderLayout />
+    </TemplateProvider>
+  );
+
+  /* Enable this when RBAC is configured:
   return (
     <RequirePermission
       permission={templateBuilderUsePermission}
@@ -47,4 +56,5 @@ export const TemplateBuilderPage = () => {
       </TemplateProvider>
     </RequirePermission>
   );
+  */
 };

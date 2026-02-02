@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useTemplateStore, BuilderTab } from '../../store/template-store';
-import MetadataPanel from '../panels/MetadataPanel';
-import ParametersPanel from '../panels/ParametersPanel';
-import StepsPanel from '../panels/StepsPanel';
-import OutputPanel from '../panels/OutputPanel';
-import YamlPreview from '../panels/YamlPreview';
-import FlowView from '../panels/FlowView';
-import EndUserPreview from '../panels/EndUserPreview';
+import { MetadataPanel } from '../panels/MetadataPanel';
+import { ParametersPanel } from '../panels/ParametersPanel';
+import { StepsPanel } from '../panels/StepsPanel';
+import { OutputPanel } from '../panels/OutputPanel';
+import { YamlPreview } from '../panels/YamlPreview';
+import { FlowView } from '../panels/FlowView';
+import { EndUserPreview } from '../panels/EndUserPreview';
 import ValidationPanel from '../panels/ValidationPanel';
-import GitHubLoader from './GitHubLoader';
+import { GitHubLoader } from './GitHubLoader';
 import GitHubSync from './GitHubSync';
-import SettingsModal from './SettingsModal';
+import { SettingsModal } from './SettingsModal';
 import { createBlankTemplate } from '../../lib/yaml-utils';
 import { validateTemplate, ValidationIssue } from '../../lib/template-validator';
 import {
@@ -75,13 +75,16 @@ export default function BuilderLayout() {
   };
 
   const handleSaveEdit = () => {
-    dispatch({
-      type: 'UPDATE_METADATA',
-      payload: {
-        title: editTitle,
-        name: editName,
-      },
-    });
+    // Only update if values actually changed
+    if (editTitle !== state.template.metadata.title || editName !== state.template.metadata.name) {
+      dispatch({
+        type: 'UPDATE_METADATA',
+        payload: {
+          title: editTitle,
+          name: editName,
+        },
+      });
+    }
     setIsEditingTitle(false);
   };
 
@@ -134,16 +137,43 @@ export default function BuilderLayout() {
 
           {/* Current template info */}
           <div className="flex items-center gap-2 ml-2 pl-3 border-l border-zinc-700">
-            {!isEditingTitle ? (
+            <div className="flex flex-col">
+              {isEditingTitle ? (
+                <input
+                  type="text"
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  onBlur={handleSaveEdit}
+                  placeholder="Template title"
+                  className="text-sm text-zinc-300 font-medium bg-transparent border-b border-blue-500 px-0 py-0 focus:outline-none"
+                  style={{ width: `${Math.max(editTitle.length || 8, 8)}ch` }}
+                  autoFocus
+                />
+              ) : (
+                <span className="text-sm text-zinc-300 font-medium">
+                  {state.template.metadata.title || 'Untitled'}
+                </span>
+              )}
+              {isEditingTitle ? (
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  onBlur={handleSaveEdit}
+                  placeholder="template-name"
+                  className="text-xs text-zinc-400 font-mono bg-transparent border-b border-blue-500 px-0 py-0 focus:outline-none"
+                  style={{ width: `${Math.max(editName.length || 12, 12)}ch` }}
+                />
+              ) : (
+                <span className="text-xs text-zinc-500 font-mono">
+                  {state.template.metadata.name}
+                </span>
+              )}
+            </div>
+            {!isEditingTitle && (
               <>
-                <div className="flex flex-col">
-                  <span className="text-sm text-zinc-300 font-medium">
-                    {state.template.metadata.title || 'Untitled'}
-                  </span>
-                  <span className="text-xs text-zinc-500 font-mono">
-                    {state.template.metadata.name}
-                  </span>
-                </div>
                 <button
                   onClick={handleStartEdit}
                   className="p-1 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 rounded transition-colors"
@@ -156,44 +186,6 @@ export default function BuilderLayout() {
                     Unsaved
                   </span>
                 )}
-              </>
-            ) : (
-              <>
-                <div className="flex flex-col gap-1">
-                  <input
-                    type="text"
-                    value={editTitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Template title"
-                    className="text-sm text-zinc-300 font-medium bg-zinc-800 border border-zinc-700 rounded px-2 py-0.5 focus:outline-none focus:border-blue-500 w-48"
-                    autoFocus
-                  />
-                  <input
-                    type="text"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="template-name"
-                    className="text-xs text-zinc-400 font-mono bg-zinc-800 border border-zinc-700 rounded px-2 py-0.5 focus:outline-none focus:border-blue-500 w-48"
-                  />
-                </div>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={handleSaveEdit}
-                    className="p-1 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 rounded transition-colors"
-                    title="Save"
-                  >
-                    <Check className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    onClick={handleCancelEdit}
-                    className="p-1 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 rounded transition-colors"
-                    title="Cancel"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
               </>
             )}
           </div>

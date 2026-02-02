@@ -723,178 +723,142 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
       {/* Validation Modal */}
       {showValidation && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl w-full max-w-xl max-h-[55vh] flex flex-col">
-            {/* Validation Header */}
-            <div className="flex-shrink-0 p-5 border-b border-zinc-700 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-500/10 rounded-lg">
-                  <Check className="w-5 h-5 text-blue-400" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-semibold text-zinc-100">Template Validation</h2>
-                  <p className="text-sm text-zinc-400">
-                    Review potential issues before pushing to GitHub
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowValidation(false)}
-                className="p-1 hover:bg-zinc-800 rounded transition-colors"
-                title="Close"
-              >
-                <X className="w-5 h-5 text-zinc-400" />
-              </button>
-            </div>
+          <div className="bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl w-80 flex flex-col">
+            {(() => {
+              const summary = getIssueSummary(validationIssues);
+              const handleFixIssues = () => {
+                setShowValidation(false);
+                onClose();
+                // Navigate to validation tab
+                dispatch({ type: 'SET_TAB', payload: 'validation' });
+              };
 
-            {/* Validation Content */}
-            <div className="flex-1 min-h-0 overflow-y-auto p-5 space-y-4">
-              {(() => {
-                const summary = getIssueSummary(validationIssues);
-                return (
-                  <>
-                    {/* Summary */}
-                    <div className="grid grid-cols-3 gap-3">
-                      <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3">
-                        <div className="text-2xl font-bold text-red-400">{summary.errors}</div>
-                        <div className="text-xs text-red-300 mt-0.5">Errors</div>
+              return (
+                <>
+                  {/* Validation Header */}
+                  <div className="p-6 border-b border-zinc-700">
+                    <div className="flex items-start gap-4">
+                      <div className={`p-3 rounded-lg ${
+                        summary.total === 0
+                          ? 'bg-emerald-500/10'
+                          : summary.errors > 0
+                          ? 'bg-red-500/10'
+                          : 'bg-amber-500/10'
+                      }`}>
+                        {summary.total === 0 ? (
+                          <CircleCheck className="w-6 h-6 text-emerald-400" />
+                        ) : (
+                          <AlertCircle className={`w-6 h-6 ${
+                            summary.errors > 0 ? 'text-red-400' : 'text-amber-400'
+                          }`} />
+                        )}
                       </div>
-                      <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
-                        <div className="text-2xl font-bold text-amber-400">{summary.warnings}</div>
-                        <div className="text-xs text-amber-300 mt-0.5">Warnings</div>
-                      </div>
-                      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
-                        <div className="text-2xl font-bold text-blue-400">{summary.infos}</div>
-                        <div className="text-xs text-blue-300 mt-0.5">Info</div>
-                      </div>
-                    </div>
-
-                    {/* Success message if no errors */}
-                    {summary.total === 0 && (
-                      <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 flex items-center gap-3">
-                        <CircleCheck className="w-5 h-5 text-emerald-400 shrink-0" />
-                        <div>
-                          <p className="text-sm font-medium text-emerald-400">
-                            No issues found!
-                          </p>
-                          <p className="text-xs text-emerald-300 mt-0.5">
-                            Your template looks good and is ready to push.
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Issues List */}
-                    {validationIssues.length > 0 && (
-                      <div className="space-y-2">
-                        {validationIssues.map((issue, index) => (
-                          <div
-                            key={index}
-                            className={`p-3 rounded-lg border ${
-                              issue.severity === 'error'
-                                ? 'bg-red-500/10 border-red-500/20'
-                                : issue.severity === 'warning'
-                                ? 'bg-amber-500/10 border-amber-500/20'
-                                : 'bg-blue-500/10 border-blue-500/20'
-                            }`}
-                          >
-                            <div className="flex items-start gap-2">
-                              <AlertCircle
-                                className={`w-4 h-4 shrink-0 mt-0.5 ${
-                                  issue.severity === 'error'
-                                    ? 'text-red-400'
-                                    : issue.severity === 'warning'
-                                    ? 'text-amber-400'
-                                    : 'text-blue-400'
-                                }`}
-                              />
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2">
-                                  <span
-                                    className={`text-xs font-medium uppercase ${
-                                      issue.severity === 'error'
-                                        ? 'text-red-400'
-                                        : issue.severity === 'warning'
-                                        ? 'text-amber-400'
-                                        : 'text-blue-400'
-                                    }`}
-                                  >
-                                    {issue.severity}
-                                  </span>
-                                  {issue.location && (
-                                    <span className="text-xs text-zinc-500 font-mono">
-                                      {issue.location}
-                                    </span>
-                                  )}
-                                </div>
-                                <p
-                                  className={`text-sm mt-1 ${
-                                    issue.severity === 'error'
-                                      ? 'text-red-200'
-                                      : issue.severity === 'warning'
-                                      ? 'text-amber-200'
-                                      : 'text-blue-200'
-                                  }`}
-                                >
-                                  {issue.message}
-                                </p>
-                                {issue.suggestion && (
-                                  <p className="text-xs text-zinc-400 mt-1">
-                                    💡 {issue.suggestion}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Warning about errors */}
-                    {summary.errors > 0 && (
-                      <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-                        <p className="text-sm text-red-300">
-                          <strong>⚠️ Critical issues detected.</strong> Your template has {summary.errors} error{summary.errors !== 1 ? 's' : ''} that may prevent it from working correctly. We recommend fixing these issues before pushing.
+                      <div className="flex-1">
+                        <h2 className="text-xl font-semibold text-zinc-100 mb-1">
+                          {summary.total === 0
+                            ? 'Ready to Push!'
+                            : 'Validation Issues Found'
+                          }
+                        </h2>
+                        <p className="text-sm text-zinc-400">
+                          {summary.total === 0
+                            ? 'Your template looks good and is ready to push to GitHub.'
+                            : `Found ${summary.errors} error${summary.errors !== 1 ? 's' : ''}, ${summary.warnings} warning${summary.warnings !== 1 ? 's' : ''}, and ${summary.infos} info message${summary.infos !== 1 ? 's' : ''}.`
+                          }
                         </p>
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Validation Content */}
+                  <div className="p-6 space-y-4">
+                    {summary.total > 0 && (
+                      <>
+                        {/* Summary Cards */}
+                        <div className="grid grid-cols-3 gap-3">
+                          {summary.errors > 0 && (
+                            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-center">
+                              <div className="text-3xl font-bold text-red-400">{summary.errors}</div>
+                              <div className="text-xs text-red-300 mt-1">Error{summary.errors !== 1 ? 's' : ''}</div>
+                            </div>
+                          )}
+                          {summary.warnings > 0 && (
+                            <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 text-center">
+                              <div className="text-3xl font-bold text-amber-400">{summary.warnings}</div>
+                              <div className="text-xs text-amber-300 mt-1">Warning{summary.warnings !== 1 ? 's' : ''}</div>
+                            </div>
+                          )}
+                          {summary.infos > 0 && (
+                            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 text-center">
+                              <div className="text-3xl font-bold text-blue-400">{summary.infos}</div>
+                              <div className="text-xs text-blue-300 mt-1">Info</div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Warning message */}
+                        {summary.errors > 0 ? (
+                          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                            <p className="text-sm text-red-300">
+                              <strong className="text-red-400">Critical issues detected.</strong> Your template has errors that may prevent it from working correctly in Backstage. We recommend fixing these issues before pushing.
+                            </p>
+                          </div>
+                        ) : summary.warnings > 0 ? (
+                          <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                            <p className="text-sm text-amber-300">
+                              Your template has warnings that should be reviewed. You can still push, but consider fixing them first for better results.
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                            <p className="text-sm text-blue-300">
+                              Your template has informational messages. Review them if needed, but you're good to push.
+                            </p>
+                          </div>
+                        )}
+                      </>
                     )}
 
-                    {/* Accept checkbox */}
+                    {/* Question */}
                     <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
-                      <label className="flex items-start gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={validationAccepted}
-                          onChange={(e) => setValidationAccepted(e.target.checked)}
-                          className="w-4 h-4 mt-0.5 rounded bg-zinc-900 border-zinc-700 text-blue-500 focus:ring-blue-500/40"
-                        />
-                        <span className="text-sm text-zinc-300">
-                          I understand that this validation is not exhaustive and does not test actual template execution.
-                          {summary.errors > 0 && ' I want to proceed despite the errors listed above.'}
-                        </span>
-                      </label>
+                      <p className="text-sm text-zinc-300 font-medium">
+                        {summary.total === 0
+                          ? 'Would you like to proceed with pushing to GitHub?'
+                          : 'What would you like to do?'
+                        }
+                      </p>
                     </div>
-                  </>
-                );
-              })()}
-            </div>
+                  </div>
 
-            {/* Validation Footer */}
-            <div className="flex-shrink-0 p-4 border-t border-zinc-700 flex justify-between items-center">
-              <button
-                onClick={() => setShowValidation(false)}
-                className="px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handlePush}
-                disabled={!validationAccepted || loading}
-                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-700 text-white disabled:text-zinc-400 rounded-lg text-sm font-medium transition-colors"
-              >
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowUpFromLine className="w-4 h-4" />}
-                Proceed with Push
-              </button>
-            </div>
+                  {/* Validation Footer */}
+                  <div className="p-6 border-t border-zinc-700 flex justify-end gap-3">
+                    <button
+                      onClick={() => setShowValidation(false)}
+                      className="px-4 py-2.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    {summary.total > 0 && (
+                      <button
+                        onClick={handleFixIssues}
+                        className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors"
+                      >
+                        <AlertCircle className="w-4 h-4" />
+                        Fix Issues
+                      </button>
+                    )}
+                    <button
+                      onClick={handlePush}
+                      disabled={loading}
+                      className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-700 text-white disabled:text-zinc-400 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowUpFromLine className="w-4 h-4" />}
+                      {summary.total === 0 ? 'Push to GitHub' : 'Push Anyway'}
+                    </button>
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </div>
       )}
