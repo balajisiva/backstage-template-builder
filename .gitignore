@@ -48,3 +48,7 @@ dist-scalprum
 node_modules
 package-lock.json
 yarn.lock
+
+# RHDH dynamic plugin builds
+*.tgz
+*.tgz.integrity
