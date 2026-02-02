@@ -16,7 +16,7 @@
   "scalprum": {
     "name": "internal.plugin-backstage-template-builder",
     "exposedModules": {
-      "PluginRoot": "./src/rhdh-entry.ts"
+      "PluginRoot": "./src/rhdh-entry.tsx"
     }
   },
   "scripts": {
@@ -69,6 +69,7 @@
     "react-router-dom": "^7.13.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "dist-dynamic"
   ]
 }
