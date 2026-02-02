@@ -8,3 +8,6 @@ export {
   templateBuilderUpdatePermission,
   templateBuilderPermissions,
 } from './permissions';
+
+// Export for RHDH dynamic plugin
+export { TemplateBuilderPage as PluginRoot } from './plugin';
