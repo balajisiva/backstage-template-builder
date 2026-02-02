@@ -52,6 +52,28 @@ This plugin focuses on:
 **Load existing templates from GitHub**
 ![Load Template](.github/assets/Load_Existing_Template.png)
 
+## Deployment Options
+
+**Choose your platform:**
+
+### ⚡ For RHDH (Red Hat Developer Hub) - 2 Minute Setup
+
+Use our pre-built dynamic plugin on Quay.io:
+- **Plugin Image**: `quay.io/balajisivarh/backstage-template-builder:0.1.0`
+- **Setup**: Config-only, no code changes
+- **Guide**: See **[QUAY-DEPLOYMENT.md](./QUAY-DEPLOYMENT.md)**
+
+### 📦 For Standard Backstage - Full Integration
+
+Install as a workspace plugin:
+- **Installation**: NPM or local workspace
+- **Integration**: Code changes in App.tsx
+- **Guide**: See **[BACKSTAGE-DEPLOYMENT.md](./BACKSTAGE-DEPLOYMENT.md)**
+
+**Not sure which?** Check the **[Deployment Comparison Guide](./DEPLOYMENT-COMPARISON.md)**
+
+---
+
 ## Installation
 
 ### Prerequisites
@@ -59,7 +81,7 @@ This plugin focuses on:
 - An existing Backstage instance (v1.x or higher)
 - Node.js 18+ and Yarn
 
-### Quick Start
+### Quick Start (Standard Backstage)
 
 1. **Copy the plugin to your Backstage monorepo:**
 
@@ -115,13 +137,18 @@ This plugin focuses on:
 
    Navigate to `http://localhost:3000/template-builder` (or click "Template Builder" in the sidebar)
 
-### Detailed Installation Guide
+### Deployment Guides
 
-For more detailed integration instructions, troubleshooting, and configuration options, see:
+**Quick Reference:**
+- **[QUAY-DEPLOYMENT.md](./QUAY-DEPLOYMENT.md)** - RHDH deployment (2-minute setup, config-only)
+- **[BACKSTAGE-DEPLOYMENT.md](./BACKSTAGE-DEPLOYMENT.md)** - Standard Backstage installation
+- **[DEPLOYMENT-COMPARISON.md](./DEPLOYMENT-COMPARISON.md)** - Platform comparison & decision guide
+- **[RHDH-DEPLOYMENT.md](./RHDH-DEPLOYMENT.md)** - Technical details for RHDH dynamic plugins
+
+**Additional Documentation:**
 - [Plugin README](plugins/backstage-template-builder/README.md)
 - [Integration Guide](plugins/backstage-template-builder/INTEGRATION.md)
 - [RBAC Configuration](plugins/backstage-template-builder/RBAC.md) - Restrict access to platform engineers
-- [RHDH Installation Guide](plugins/backstage-template-builder/RHDH-INSTALLATION.md) - For Red Hat Developer Hub users
 
 ## GitHub Integration
 
