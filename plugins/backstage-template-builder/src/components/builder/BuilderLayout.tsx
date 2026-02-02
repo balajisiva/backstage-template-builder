@@ -251,7 +251,11 @@ export default function BuilderLayout() {
               <div className="w-px h-6 bg-zinc-700 mx-1" />
               <button
                 onClick={() => setShowYaml(!showYaml)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-300 hover:text-zinc-100 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg transition-colors"
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-colors ${
+                  showYaml
+                    ? 'bg-blue-600 hover:bg-blue-500 text-white border border-blue-500'
+                    : 'text-zinc-300 hover:text-zinc-100 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700'
+                }`}
               >
                 {showYaml ? <PanelRightClose className="w-3.5 h-3.5" /> : <PanelRightOpen className="w-3.5 h-3.5" />}
                 YAML

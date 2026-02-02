@@ -48,8 +48,7 @@ export function YamlPreview({ onPush }: YamlPreviewProps) {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between p-3 border-b border-zinc-700/50">
-        <h3 className="text-sm font-semibold text-zinc-300">YAML</h3>
+      <div className="flex items-center justify-end p-3 border-b border-zinc-700/50">
         <div className="flex items-center gap-1.5">
           {isEditing ? (
             <>
