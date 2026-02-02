@@ -1,8 +1,9 @@
-// RHDH Dynamic Plugin Entry Point - Minimal test version
+// RHDH Dynamic Plugin Entry Point - Named export only
 import React from 'react';
 
-// Simplest possible component to test plugin loading
-export default function PluginRoot() {
+// IMPORTANT: Must be a NAMED export called PluginRoot (not default)
+// This matches the importName in dynamic-plugins.override.yaml
+export function PluginRoot() {
   return (
     <div style={{
       display: 'flex',
@@ -21,6 +22,3 @@ export default function PluginRoot() {
     </div>
   );
 }
-
-// Also export as named export for compatibility
-export { PluginRoot };
