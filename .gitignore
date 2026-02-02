@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# backstage
+dist
+dist-types
+dist-dynamic
+dist-scalprum
+node_modules
+package-lock.json
+yarn.lock

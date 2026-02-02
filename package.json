@@ -1,42 +1,47 @@
 {
-  "name": "backstage-template-builder",
+  "name": "root",
   "version": "0.1.0",
-  "description": "Backstage plugin for visual template authoring and management",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+  "engines": {
+    "node": "18 || 20 || 22"
   },
-  "dependencies": {
-    "@dnd-kit/core": "^6.3.1",
-    "@dnd-kit/sortable": "^10.0.0",
-    "@dnd-kit/utilities": "^3.2.2",
-    "@radix-ui/react-accordion": "^1.2.12",
-    "@radix-ui/react-dialog": "^1.1.15",
-    "@radix-ui/react-dropdown-menu": "^2.1.16",
-    "@radix-ui/react-select": "^2.2.6",
-    "@radix-ui/react-switch": "^1.2.6",
-    "@radix-ui/react-tabs": "^1.1.13",
-    "@radix-ui/react-tooltip": "^1.2.8",
-    "js-yaml": "^4.1.1",
-    "lucide-react": "^0.563.0",
-    "next": "16.1.5",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "uuid": "^13.0.0"
+  "scripts": {
+    "dev": "yarn workspace @internal/plugin-backstage-template-builder start",
+    "build": "backstage-cli repo build --all",
+    "build:plugin": "yarn workspace @internal/plugin-backstage-template-builder build",
+    "tsc": "tsc",
+    "clean": "backstage-cli repo clean",
+    "test": "backstage-cli repo test",
+    "test:all": "backstage-cli repo test --coverage",
+    "lint": "backstage-cli repo lint --since origin/main",
+    "lint:all": "backstage-cli repo lint",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
+    "export-dynamic": "yarn workspace @internal/plugin-backstage-template-builder export-dynamic"
+  },
+  "workspaces": {
+    "packages": [
+      "plugins/*"
+    ]
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/js-yaml": "^4.0.9",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@types/uuid": "^10.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.5",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@backstage/cli": "^0.26.0",
+    "@spotify/prettier-config": "^15.0.0",
+    "prettier": "^2.3.2",
+    "typescript": "~5.3.0"
+  },
+  "resolutions": {
+    "@types/react": "^18",
+    "@types/react-dom": "^18"
+  },
+  "prettier": "@spotify/prettier-config",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }
