@@ -13,19 +13,12 @@
   "backstage": {
     "role": "frontend-plugin"
   },
-  "scalprum": {
-    "name": "internal.plugin-backstage-template-builder",
-    "exposedModules": {
-      "PluginRoot": "./src/rhdh-entry.tsx"
-    }
-  },
   "scripts": {
     "start": "backstage-cli package start",
     "build": "backstage-cli package build",
     "lint": "backstage-cli package lint",
     "test": "backstage-cli package test",
-    "clean": "backstage-cli package clean",
-    "export-dynamic": "backstage-cli package export-dynamic-plugin --embed-package @types/js-yaml --embed-package @types/uuid"
+    "clean": "backstage-cli package clean"
   },
   "dependencies": {
     "@backstage/catalog-model": "^1.4.0",
@@ -64,12 +57,11 @@
     "@testing-library/react": "^14.0.0",
     "@types/js-yaml": "^4.0.9",
     "@types/uuid": "^10.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.26.0"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.0"
   },
   "files": [
-    "dist",
-    "dist-dynamic"
+    "dist"
   ]
 }
