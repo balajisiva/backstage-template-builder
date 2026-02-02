@@ -20,6 +20,7 @@ This plugin is designed for platform teams who want faster, safer iteration on t
 - **Visual template editor** — Create and edit scaffolder templates using structured forms instead of hand-editing YAML
 - **Live YAML view** — Always see the generated YAML side-by-side to retain transparency and control
 - **Template validation** — Validate templates at any time with clickable issues that navigate directly to problems
+- **RBAC support** — Restrict access to platform engineers only using Backstage's permission system
 - **Execution flow visualization** — Understand how scaffolder steps execute through a clear, step-by-step flow view
 - **Action discovery** — Browse and add common scaffolder actions (fetch, publish, catalog, custom actions)
 - **Preview experience** — See what the end-user form will look like before publishing the template
@@ -40,6 +41,8 @@ This plugin focuses on:
 - Backstage administrators
 - Architects and PMs defining golden paths
 - Anyone responsible for maintaining scaffolder templates at scale
+
+**Note:** The plugin supports RBAC to ensure only authorized platform engineers can access it. See [RBAC Configuration](plugins/backstage-template-builder/RBAC.md) for setup instructions.
 
 ## Quick Look
 
@@ -117,6 +120,7 @@ This plugin focuses on:
 For more detailed integration instructions, troubleshooting, and configuration options, see:
 - [Plugin README](plugins/backstage-template-builder/README.md)
 - [Integration Guide](plugins/backstage-template-builder/INTEGRATION.md)
+- [RBAC Configuration](plugins/backstage-template-builder/RBAC.md) - Restrict access to platform engineers
 - [RHDH Installation Guide](plugins/backstage-template-builder/RHDH-INSTALLATION.md) - For Red Hat Developer Hub users
 
 ## GitHub Integration
