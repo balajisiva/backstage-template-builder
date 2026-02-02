@@ -1,22 +1,26 @@
-// RHDH Dynamic Plugin Entry Point
-// Export a simple wrapper without permissions for RHDH
-
+// RHDH Dynamic Plugin Entry Point - Minimal test version
 import React from 'react';
-import { TemplateProvider } from './components/builder/TemplateProvider';
-import BuilderLayout from './components/builder/BuilderLayout';
-import './styles.css';
 
-// Simple wrapper for RHDH - skip permission checks
-// IMPORTANT: Must be a function component that returns JSX, not a JSX element
-export function PluginRoot() {
+// Simplest possible component to test plugin loading
+export default function PluginRoot() {
   return (
-    <TemplateProvider>
-      <BuilderLayout />
-    </TemplateProvider>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100vh',
+      fontFamily: 'sans-serif',
+      backgroundColor: '#18181b',
+      color: '#fff'
+    }}>
+      <div style={{ textAlign: 'center', padding: '2rem' }}>
+        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>🎉 Template Builder Plugin Loaded!</h1>
+        <p style={{ color: '#a1a1aa' }}>The RHDH dynamic plugin is working correctly.</p>
+        <p style={{ color: '#a1a1aa', marginTop: '1rem' }}>This is a test component.</p>
+      </div>
+    </div>
   );
 }
 
-export { rootRouteRef } from './routes';
-
-// Also export the plugin and extension for OSS Backstage compatibility
-export * from './plugin';
+// Also export as named export for compatibility
+export { PluginRoot };
