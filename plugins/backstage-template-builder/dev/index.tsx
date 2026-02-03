@@ -1,6 +1,7 @@
 import React from 'react';
 import { createDevApp } from '@backstage/dev-utils';
-import { templateBuilderPlugin, TemplateBuilderPage } from '../src/plugin';
+import { templateBuilderPlugin, TemplateBuilderPage } from '../src';
+import '../src/styles.css';
 
 createDevApp()
   .registerPlugin(templateBuilderPlugin)

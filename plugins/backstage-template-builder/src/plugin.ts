@@ -2,7 +2,7 @@ import { createPlugin, createRoutableExtension } from '@backstage/core-plugin-ap
 import { rootRouteRef } from './routes';
 
 export const templateBuilderPlugin = createPlugin({
-  id: 'backstage-template-builder',
+  id: 'template-builder',
   routes: {
     root: rootRouteRef,
   },

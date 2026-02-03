@@ -1,0 +1,36 @@
+app:
+  title: Template Builder Dev
+  baseUrl: http://localhost:3001
+
+organization:
+  name: Template Builder
+
+backend:
+  baseUrl: http://localhost:7008
+  listen:
+    port: 7008
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+  cors:
+    origin: http://localhost:3001
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+integrations:
+  github:
+    - host: github.com
+      # token: ${GITHUB_TOKEN}
+
+# Disable auth for local development
+auth:
+  providers: {}
+
+catalog:
+  locations: []
+
+# Template Builder Plugin Configuration (if needed)
+# templateBuilder:
+#   enabled: true

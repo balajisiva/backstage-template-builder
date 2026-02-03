@@ -3,7 +3,7 @@ import { useTemplateStore } from '../../store/template-store';
 import { Tag, X } from 'lucide-react';
 import { Tooltip } from '../ui/Tooltip';
 // Import Backstage frontend APIs
-import { useApi } from '@backstage/core-plugin-api';
+import { useApiHolder } from '@backstage/core-plugin-api';
 import { identityApiRef } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import type { Entity } from '@backstage/catalog-model';
@@ -20,19 +20,30 @@ export function MetadataPanel() {
   const [showOwnerSuggestions, setShowOwnerSuggestions] = useState(false);
   const [showSystemSuggestions, setShowSystemSuggestions] = useState(false);
 
-  // Get Backstage APIs
+  // Get Backstage APIs (optional - for autocomplete functionality)
   // identityApiRef: Provides the signed-in user's identity (userEntityRef)
-  const identityApi = useApi(identityApiRef);
   // catalogApiRef: Queries the Backstage Catalog for entities (Users, Groups, Systems, etc.)
-  const catalogApi = useApi(catalogApiRef);
+  const apiHolder = useApiHolder();
+  const identityApi = apiHolder.get(identityApiRef);
+  const catalogApi = apiHolder.get(catalogApiRef);
 
   // Fetch user identity and set default owner on component mount
   useEffect(() => {
     const initializeDefaults = async () => {
+      // Skip if APIs are not available (dev mode)
+      if (!identityApi || !catalogApi) {
+        return;
+      }
+
       try {
         // Step 1: Get the current user's identity
         const identity = await identityApi.getBackstageIdentity();
-        const userEntityRef = identity.userEntityRef; // e.g., "user:default/jdoe"
+        const userEntityRef = identity?.userEntityRef; // e.g., "user:default/jdoe"
+
+        if (!userEntityRef) {
+          console.warn('User identity not available');
+          return;
+        }
 
         // Step 2: Query the catalog to get the User entity
         const userEntity = await catalogApi.getEntityByRef(userEntityRef);
@@ -64,6 +75,11 @@ export function MetadataPanel() {
   // Fetch Group entities for Owner field autocomplete
   useEffect(() => {
     const fetchGroups = async () => {
+      // Skip if catalog API is not available (dev mode)
+      if (!catalogApi) {
+        return;
+      }
+
       try {
         // Query catalog for all entities of kind "Group"
         const { items } = await catalogApi.getEntities({
@@ -83,6 +99,11 @@ export function MetadataPanel() {
   // Fetch System entities for System field autocomplete
   useEffect(() => {
     const fetchSystems = async () => {
+      // Skip if catalog API is not available (dev mode)
+      if (!catalogApi) {
+        return;
+      }
+
       try {
         // Query catalog for all entities of kind "System"
         const { items } = await catalogApi.getEntities({

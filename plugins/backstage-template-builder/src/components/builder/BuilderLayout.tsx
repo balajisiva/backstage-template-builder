@@ -26,13 +26,10 @@ import {
   Eye,
   GitFork,
   Pencil,
-  Check,
-  X,
   MessageSquare,
   BookOpen,
   Settings2,
   ArrowLeft,
-  AlertTriangle,
   AlertCircle,
   ShieldCheck,
 } from 'lucide-react';
