@@ -182,7 +182,9 @@ Install as a workspace plugin:
 
 For RHDH deployments, use the pre-built dynamic plugin from Quay.io - no code changes required.
 
-### Installation
+### Quick Installation (Recommended)
+
+Use the pre-built image from Quay.io:
 
 1. **Add plugin to `dynamic-plugins.yaml`:**
 
@@ -217,6 +219,80 @@ podman compose up -d
 Navigate to `http://your-rhdh-host:7007/template-builder`
 
 The "Template Builder" menu item will appear automatically in the left sidebar.
+
+### Build from Source (For Customization)
+
+If you want to customize the plugin or build from source:
+
+1. **Clone the repository:**
+
+```bash
+git clone https://github.com/balajisiva/backstage-template-builder.git
+cd backstage-template-builder/plugins/backstage-template-builder
+```
+
+2. **Install dependencies:**
+
+```bash
+yarn install
+```
+
+3. **Export the dynamic plugin:**
+
+```bash
+yarn export-dynamic
+```
+
+This creates `dist-dynamic/` with the plugin bundle.
+
+4. **Option A: Use locally in RHDH**
+
+Copy the `dist-dynamic` folder to your RHDH instance:
+
+```bash
+cp -r dist-dynamic /path/to/rhdh/local-plugins/backstage-template-builder
+```
+
+Update `dynamic-plugins.yaml`:
+
+```yaml
+plugins:
+  - package: ./local-plugins/backstage-template-builder
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          internal.backstage-plugin-template-builder:
+            appIcons:
+              - name: TemplateIcon
+                importName: Description
+            dynamicRoutes:
+              - path: /template-builder
+                importName: TemplateBuilderPage
+                menuItem:
+                  text: Template Builder
+                  icon: TemplateIcon
+```
+
+5. **Option B: Build and push to your own registry**
+
+```bash
+# Package as OCI image
+npx @red-hat-developer-hub/cli@latest plugin package \
+  --tag quay.io/YOUR_ORG/backstage-template-builder:v1.0.0
+
+# Push to your registry
+podman push quay.io/YOUR_ORG/backstage-template-builder:v1.0.0
+```
+
+Then reference your image in `dynamic-plugins.yaml`:
+
+```yaml
+plugins:
+  - package: oci://quay.io/YOUR_ORG/backstage-template-builder:v1.0.0!internal-plugin-backstage-template-builder
+    disabled: false
+    # ... rest of config
+```
 
 ### Configuration Options
 
