@@ -11,12 +11,3 @@ export {
   templateBuilderUpdatePermission,
   templateBuilderPermissions,
 } from './permissions';
-
-// Export PluginRoot for RHDH dynamic plugin
-import { TemplateBuilderPage } from './plugin';
-import Description from '@material-ui/icons/Description';
-
-export const PluginRoot = {
-  TemplateBuilderPage,
-  Description,
-};
