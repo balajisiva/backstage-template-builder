@@ -59,9 +59,37 @@ This plugin focuses on:
 ### ⚡ For RHDH (Red Hat Developer Hub) - 2 Minute Setup
 
 Use our pre-built dynamic plugin on Quay.io:
-- **Plugin Image**: `quay.io/balajisivarh/backstage-template-builder:0.1.0`
-- **Setup**: Config-only, no code changes
-- **Guide**: See **[QUAY-DEPLOYMENT.md](./QUAY-DEPLOYMENT.md)**
+- **Plugin Image**: `quay.io/balajisivarh/backstage-template-builder:latest`
+- **Setup**: Config-only, no code changes required
+- **Access**: `/template-builder` route with automatic menu integration
+
+**Quick Setup:**
+
+1. Add to your `dynamic-plugins.yaml`:
+```yaml
+plugins:
+  - package: oci://quay.io/balajisivarh/backstage-template-builder:latest!internal-plugin-backstage-template-builder
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          internal.backstage-plugin-template-builder:
+            appIcons:
+              - name: TemplateIcon
+                importName: Description
+            dynamicRoutes:
+              - path: /template-builder
+                importName: TemplateBuilderPage
+                menuItem:
+                  text: Template Builder
+                  icon: TemplateIcon
+```
+
+2. Restart RHDH
+
+3. Access at `http://localhost:7007/template-builder`
+
+For detailed RHDH configuration, see **[RHDH Setup Guide](#rhdh-red-hat-developer-hub-setup)** below.
 
 ### 📦 For Standard Backstage - Full Integration
 
@@ -149,6 +177,69 @@ Install as a workspace plugin:
 - [Plugin README](plugins/backstage-template-builder/README.md)
 - [Integration Guide](plugins/backstage-template-builder/INTEGRATION.md)
 - [RBAC Configuration](plugins/backstage-template-builder/RBAC.md) - Restrict access to platform engineers
+
+## RHDH (Red Hat Developer Hub) Setup
+
+For RHDH deployments, use the pre-built dynamic plugin from Quay.io - no code changes required.
+
+### Installation
+
+1. **Add plugin to `dynamic-plugins.yaml`:**
+
+```yaml
+plugins:
+  - package: oci://quay.io/balajisivarh/backstage-template-builder:latest!internal-plugin-backstage-template-builder
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          internal.backstage-plugin-template-builder:
+            appIcons:
+              - name: TemplateIcon
+                importName: Description
+            dynamicRoutes:
+              - path: /template-builder
+                importName: TemplateBuilderPage
+                menuItem:
+                  text: Template Builder
+                  icon: TemplateIcon
+```
+
+2. **Restart RHDH:**
+
+```bash
+podman compose down
+podman compose up -d
+```
+
+3. **Access the plugin:**
+
+Navigate to `http://your-rhdh-host:7007/template-builder`
+
+The "Template Builder" menu item will appear automatically in the left sidebar.
+
+### Configuration Options
+
+- **Path**: Change `path: /template-builder` to customize the URL route
+- **Menu text**: Change `text: Template Builder` to customize the sidebar label
+- **Icon**: Change `icon: TemplateIcon` to use a different Material-UI icon
+
+### Features in RHDH
+
+All features work identically in RHDH:
+- Visual template editor
+- GitHub integration (with browser-stored PAT)
+- Live YAML preview
+- Template validation
+- Flow visualization
+- End-user preview
+
+### Permissions
+
+By default, the plugin is accessible to all users. To restrict access, configure RBAC permissions in RHDH. The plugin exports the following permissions:
+- `template.builder.use` - Access the template builder
+- `template.builder.create` - Create new templates
+- `template.builder.update` - Modify existing templates
 
 ## GitHub Integration
 
