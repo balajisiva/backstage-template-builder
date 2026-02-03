@@ -233,14 +233,14 @@ export default function BuilderLayout() {
 
           <button
             onClick={handleNew}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-300 hover:text-zinc-100 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1 text-xs text-zinc-300 hover:text-zinc-100 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg transition-colors"
           >
             <FilePlus2 className="w-3.5 h-3.5" />
             New
           </button>
           <button
             onClick={() => setShowLoader(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-300 hover:text-zinc-100 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1 text-xs text-zinc-300 hover:text-zinc-100 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg transition-colors"
           >
             <FolderGit2 className="w-3.5 h-3.5" />
             Load Template
@@ -251,7 +251,7 @@ export default function BuilderLayout() {
               <div className="w-px h-6 bg-zinc-700 mx-1" />
               <button
                 onClick={() => setShowYaml(!showYaml)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-1 text-xs rounded-lg transition-colors ${
                   showYaml
                     ? 'bg-blue-600 hover:bg-blue-500 text-white border border-blue-500'
                     : 'text-zinc-300 hover:text-zinc-100 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700'
@@ -272,12 +272,12 @@ export default function BuilderLayout() {
           <>
             {/* Tab sidebar */}
             <nav className="w-48 shrink-0 border-r border-zinc-800 bg-zinc-900/30 flex flex-col">
-              <div className="p-2 space-y-0.5 flex-1">
+              <div className="p-1.5 space-y-0.5 flex-1">
                 {TABS.map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => dispatch({ type: 'SET_TAB', payload: tab.id })}
-                    className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-sm transition-all ${
+                    className={`w-full flex items-center gap-2.5 px-3 py-1 rounded-lg text-sm transition-all ${
                       state.activeTab === tab.id
                         ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent'
@@ -289,12 +289,12 @@ export default function BuilderLayout() {
                 ))}
 
                 {/* Separator */}
-                <div className="pt-1 mt-1 border-t border-zinc-800" />
+                <div className="pt-0.5 mt-0.5 border-t border-zinc-800" />
 
                 {/* Validate button */}
                 <button
                   onClick={handleValidate}
-                  className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent transition-all"
+                  className="w-full flex items-center gap-2.5 px-3 py-1 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent transition-all"
                 >
                   <ShieldCheck className="w-4 h-4" />
                   Validate
@@ -304,7 +304,7 @@ export default function BuilderLayout() {
                 {validationIssues.length > 0 && (
                   <button
                     onClick={() => dispatch({ type: 'SET_TAB', payload: 'validation' })}
-                    className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-sm transition-all ${
+                    className={`w-full flex items-center gap-2.5 px-3 py-1 rounded-lg text-sm transition-all ${
                       state.activeTab === 'validation'
                         ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                         : 'text-amber-400 hover:text-amber-300 hover:bg-amber-500/5 border border-transparent'
@@ -320,10 +320,10 @@ export default function BuilderLayout() {
               </div>
 
               {/* Bottom menu */}
-              <div className="p-2 border-t border-zinc-800 space-y-0.5">
+              <div className="p-1.5 border-t border-zinc-800 space-y-0.5">
                 <button
                   onClick={() => setShowSettings(true)}
-                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
                 >
                   <Settings2 className="w-3.5 h-3.5" />
                   <span>Settings</span>
@@ -332,7 +332,7 @@ export default function BuilderLayout() {
                   href="https://github.com/balajisiva/backstage-template-builder#readme"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>Help</span>
@@ -342,7 +342,7 @@ export default function BuilderLayout() {
                   href="https://github.com/balajisiva/backstage-template-builder/issues"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
                   <span>Feedback or Bug Report</span>
@@ -369,17 +369,17 @@ export default function BuilderLayout() {
           <>
             {/* Flow sidebar */}
             <nav className="w-48 shrink-0 border-r border-zinc-800 bg-zinc-900/30 flex flex-col">
-              <div className="p-2 space-y-0.5 flex-1">
+              <div className="p-1.5 space-y-0.5 flex-1">
                 <button
                   onClick={() => setViewMode('editor')}
-                  className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-sm bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
+                  className="w-full flex items-center gap-2.5 px-3 py-1 rounded-lg text-sm bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Back to Editor
                 </button>
                 <button
                   onClick={() => setViewMode('preview')}
-                  className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent transition-all"
+                  className="w-full flex items-center gap-2.5 px-3 py-1 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent transition-all"
                 >
                   <Eye className="w-4 h-4" />
                   Preview
@@ -387,10 +387,10 @@ export default function BuilderLayout() {
               </div>
 
               {/* Bottom menu */}
-              <div className="p-2 border-t border-zinc-800 space-y-0.5">
+              <div className="p-1.5 border-t border-zinc-800 space-y-0.5">
                 <button
                   onClick={() => setShowSettings(true)}
-                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
                 >
                   <Settings2 className="w-3.5 h-3.5" />
                   <span>Settings</span>
@@ -399,7 +399,7 @@ export default function BuilderLayout() {
                   href="https://github.com/balajisiva/backstage-template-builder#readme"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>Help</span>
@@ -409,7 +409,7 @@ export default function BuilderLayout() {
                   href="https://github.com/balajisiva/backstage-template-builder/issues"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
                   <span>Feedback or Bug Report</span>
@@ -429,17 +429,17 @@ export default function BuilderLayout() {
           <>
             {/* Preview sidebar */}
             <nav className="w-48 shrink-0 border-r border-zinc-800 bg-zinc-900/30 flex flex-col">
-              <div className="p-2 space-y-0.5 flex-1">
+              <div className="p-1.5 space-y-0.5 flex-1">
                 <button
                   onClick={() => setViewMode('editor')}
-                  className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-sm bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
+                  className="w-full flex items-center gap-2.5 px-3 py-1 rounded-lg text-sm bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Back to Editor
                 </button>
                 <button
                   onClick={() => setViewMode('flow')}
-                  className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent transition-all"
+                  className="w-full flex items-center gap-2.5 px-3 py-1 rounded-lg text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border border-transparent transition-all"
                 >
                   <GitFork className="w-4 h-4" />
                   Flow View
@@ -447,10 +447,10 @@ export default function BuilderLayout() {
               </div>
 
               {/* Bottom menu */}
-              <div className="p-2 border-t border-zinc-800 space-y-0.5">
+              <div className="p-1.5 border-t border-zinc-800 space-y-0.5">
                 <button
                   onClick={() => setShowSettings(true)}
-                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
                 >
                   <Settings2 className="w-3.5 h-3.5" />
                   <span>Settings</span>
@@ -459,7 +459,7 @@ export default function BuilderLayout() {
                   href="https://github.com/balajisiva/backstage-template-builder#readme"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>Help</span>
@@ -469,7 +469,7 @@ export default function BuilderLayout() {
                   href="https://github.com/balajisiva/backstage-template-builder/issues"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-lg transition-colors"
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
                   <span>Feedback or Bug Report</span>
