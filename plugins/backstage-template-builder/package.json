@@ -77,7 +77,8 @@
   "scalprum": {
     "name": "internal.backstage-plugin-template-builder",
     "exposedModules": {
-      "PluginRoot": "./src/index.ts"
+      "TemplateBuilderPage": "./src/index.ts",
+      "Description": "./src/index.ts"
     }
   }
 }
