@@ -6,7 +6,7 @@ import {
   TemplateState,
   templateReducer,
 } from '../../store/template-store';
-import { createBlankTemplate, templateToYaml, yamlToTemplate } from '../../lib/yaml-utils';
+import { createBlankTemplate, templateToYaml } from '../../lib/yaml-utils';
 
 const STORAGE_KEY = 'backstage_template_builder_draft';
 

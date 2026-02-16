@@ -76,7 +76,6 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
   // Validation state
   const [showValidation, setShowValidation] = useState(false);
   const [validationIssues, setValidationIssues] = useState<ValidationIssue[]>([]);
-  const [validationAccepted, setValidationAccepted] = useState(false);
 
   // Set smart default for push path based on template name
   useEffect(() => {
@@ -251,7 +250,6 @@ export default function GitHubSync({ mode: initialMode, onClose }: GitHubSyncPro
     const issues = validateTemplate(state.template);
     setValidationIssues(issues);
     setShowValidation(true);
-    setValidationAccepted(false);
   };
 
   const handlePush = async () => {

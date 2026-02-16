@@ -1,11 +1,12 @@
 import React from 'react';
 import { TemplateProvider } from '../builder/TemplateProvider';
 import BuilderLayout from '../builder/BuilderLayout';
-import { RequirePermission } from '@backstage/plugin-permission-react';
-import { templateBuilderUsePermission } from '../../permissions';
-import { ShieldAlert, Lock } from 'lucide-react';
+// import { RequirePermission } from '@backstage/plugin-permission-react';
+// import { templateBuilderUsePermission } from '../../permissions';
+// import { ShieldAlert, Lock } from 'lucide-react';
 import '../../styles.css';
 
+/* Uncomment when RBAC is configured:
 const PermissionDenied = () => {
   return (
     <div className="h-screen flex items-center justify-center bg-zinc-950">
@@ -35,6 +36,7 @@ const PermissionDenied = () => {
     </div>
   );
 };
+*/
 
 export const TemplateBuilderPage = () => {
   // Temporarily disable permission check for local testing
