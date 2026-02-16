@@ -1,10 +1,29 @@
 {
-  "name": "@internal/plugin-backstage-template-builder",
+  "name": "@balajisiva/backstage-plugin-template-builder",
   "version": "0.1.0",
+  "description": "Visual editor for creating and managing Backstage scaffolder templates with live YAML preview, flow visualization, and GitHub integration",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "license": "MIT",
-  "private": true,
+  "author": "Balaji Sivasubramanian",
+  "homepage": "https://github.com/balajisiva/backstage-template-builder#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/balajisiva/backstage-template-builder.git",
+    "directory": "plugins/backstage-template-builder"
+  },
+  "bugs": {
+    "url": "https://github.com/balajisiva/backstage-template-builder/issues"
+  },
+  "keywords": [
+    "backstage",
+    "backstage-plugin",
+    "scaffolder",
+    "templates",
+    "visual-editor",
+    "yaml",
+    "developer-portal"
+  ],
   "publishConfig": {
     "access": "public",
     "main": "dist/index.esm.js",
